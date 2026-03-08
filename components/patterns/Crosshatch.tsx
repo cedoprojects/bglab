@@ -2,7 +2,8 @@
 
 import { PatternConfig } from "@/types"
 
-export function Crosshatch({ color = "#ffffff", opacity = 0.15, speed = 12 }: Partial<PatternConfig>) {
+export function Crosshatch({ color = "#ffffff", opacity = 0.15, speed = 12, size = 1 }: Partial<PatternConfig>) {
+  const cellSize = Math.round(40 * size)
   return (
     <div
       className="absolute inset-0 overflow-hidden"
@@ -10,13 +11,13 @@ export function Crosshatch({ color = "#ffffff", opacity = 0.15, speed = 12 }: Pa
     >
       <svg className="absolute inset-0 w-full h-full">
         <defs>
-          <pattern id="crosshatch" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-            <line x1="0" y1="0" x2="0" y2="40" stroke="currentColor" strokeWidth="0.5" opacity={opacity} />
-            <line x1="20" y1="0" x2="20" y2="40" stroke="currentColor" strokeWidth="0.5" opacity={opacity * 0.6} />
+          <pattern id="crosshatch" width={cellSize} height={cellSize} patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <line x1="0" y1="0" x2="0" y2={cellSize} stroke="currentColor" strokeWidth="0.5" opacity={opacity} />
+            <line x1={cellSize / 2} y1="0" x2={cellSize / 2} y2={cellSize} stroke="currentColor" strokeWidth="0.5" opacity={opacity * 0.6} />
           </pattern>
-          <pattern id="crosshatch2" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
-            <line x1="0" y1="0" x2="0" y2="40" stroke="currentColor" strokeWidth="0.5" opacity={opacity} />
-            <line x1="20" y1="0" x2="20" y2="40" stroke="currentColor" strokeWidth="0.5" opacity={opacity * 0.6} />
+          <pattern id="crosshatch2" width={cellSize} height={cellSize} patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+            <line x1="0" y1="0" x2="0" y2={cellSize} stroke="currentColor" strokeWidth="0.5" opacity={opacity} />
+            <line x1={cellSize / 2} y1="0" x2={cellSize / 2} y2={cellSize} stroke="currentColor" strokeWidth="0.5" opacity={opacity * 0.6} />
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#crosshatch)" />

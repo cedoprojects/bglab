@@ -2,7 +2,9 @@
 
 import { PatternConfig } from "@/types"
 
-export function DotMatrix({ color = "#ffffff", opacity = 0.15, speed = 6 }: Partial<PatternConfig>) {
+export function DotMatrix({ color = "#ffffff", opacity = 0.15, speed = 6, size = 1 }: Partial<PatternConfig>) {
+  const fine   = Math.round(24 * size)
+  const accent = Math.round(96 * size)
   return (
     <div
       className="absolute inset-0 overflow-hidden"
@@ -13,7 +15,7 @@ export function DotMatrix({ color = "#ffffff", opacity = 0.15, speed = 6 }: Part
         className="absolute inset-0"
         style={{
           backgroundImage: `radial-gradient(circle, currentColor 1px, transparent 1px)`,
-          backgroundSize: "24px 24px",
+          backgroundSize: `${fine}px ${fine}px`,
           opacity,
         }}
       />
@@ -22,7 +24,7 @@ export function DotMatrix({ color = "#ffffff", opacity = 0.15, speed = 6 }: Part
         className="absolute inset-0"
         style={{
           backgroundImage: `radial-gradient(circle, currentColor 2px, transparent 2px)`,
-          backgroundSize: "96px 96px",
+          backgroundSize: `${accent}px ${accent}px`,
           opacity: opacity * 0.7,
         }}
       />

@@ -12,9 +12,10 @@ export function usePatternConfig(defaults: PatternConfig): PatternConfig & {
   const router = useRouter()
   const params = useSearchParams()
 
-  const color = params.get("color") ? `#${params.get("color")}` : defaults.color
+  const color   = params.get("color")   ? `#${params.get("color")}` : defaults.color
   const opacity = params.get("opacity") ? parseFloat(params.get("opacity")!) : defaults.opacity
-  const speed = params.get("speed") ? parseFloat(params.get("speed")!) : defaults.speed
+  const speed   = params.get("speed")   ? parseFloat(params.get("speed")!)   : defaults.speed
+  const size    = params.get("size")    ? parseFloat(params.get("size")!)    : defaults.size
 
   const update = useCallback((key: string, value: string) => {
     const next = new URLSearchParams(params.toString())
@@ -22,9 +23,9 @@ export function usePatternConfig(defaults: PatternConfig): PatternConfig & {
     router.replace(`?${next.toString()}`, { scroll: false })
   }, [params, router])
 
-  const setColor = (v: string) => update("color", v.replace("#", ""))
+  const setColor   = (v: string) => update("color", v.replace("#", ""))
   const setOpacity = (v: number) => update("opacity", String(v))
-  const setSpeed = (v: number) => update("speed", String(v))
+  const setSpeed   = (v: number) => update("speed", String(v))
 
-  return { color, opacity, speed, setColor, setOpacity, setSpeed }
+  return { color, opacity, speed, size, setColor, setOpacity, setSpeed }
 }

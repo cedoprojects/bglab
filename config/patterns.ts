@@ -23,7 +23,7 @@ export const patterns: PatternMeta[] = [
     name: "Blueprint Grid",
     description: "Technical drawing aesthetic with a slow horizontal scan line",
     tags: ["grid", "minimal", "technical"],
-    defaultConfig: { color: "#ffffff", opacity: 0.15, speed: 8 },
+    defaultConfig: { color: "#ffffff", opacity: 0.15, speed: 8, size: 1 },
     component: BlueprintGrid,
   },
   {
@@ -31,7 +31,7 @@ export const patterns: PatternMeta[] = [
     name: "Dot Matrix",
     description: "Precision dots with expanding ripple rings",
     tags: ["dots", "minimal", "animated"],
-    defaultConfig: { color: "#ffffff", opacity: 0.15, speed: 6 },
+    defaultConfig: { color: "#ffffff", opacity: 0.15, speed: 6, size: 1 },
     component: DotMatrix,
   },
   {
@@ -39,7 +39,7 @@ export const patterns: PatternMeta[] = [
     name: "Isometric Lines",
     description: "3D wireframe aesthetic with floating diamond blocks",
     tags: ["geometric", "3d", "architectural"],
-    defaultConfig: { color: "#ffffff", opacity: 0.12, speed: 12 },
+    defaultConfig: { color: "#ffffff", opacity: 0.12, speed: 12, size: 1 },
     component: IsometricLines,
   },
   {
@@ -47,7 +47,7 @@ export const patterns: PatternMeta[] = [
     name: "Structural Beams",
     description: "Steel framework with pulsing connection nodes",
     tags: ["geometric", "technical", "nodes"],
-    defaultConfig: { color: "#ffffff", opacity: 0.1, speed: 4 },
+    defaultConfig: { color: "#ffffff", opacity: 0.1, speed: 4, size: 1 },
     component: StructuralBeams,
   },
   {
@@ -55,7 +55,7 @@ export const patterns: PatternMeta[] = [
     name: "Crosshatch",
     description: "Architectural sketch hatching with slow drift",
     tags: ["texture", "sketch", "minimal"],
-    defaultConfig: { color: "#ffffff", opacity: 0.1, speed: 10 },
+    defaultConfig: { color: "#ffffff", opacity: 0.1, speed: 10, size: 1 },
     component: Crosshatch,
   },
   {
@@ -63,7 +63,7 @@ export const patterns: PatternMeta[] = [
     name: "Geometric Blocks",
     description: "Silhouetted building shapes with breathing animation",
     tags: ["architectural", "blocks", "city"],
-    defaultConfig: { color: "#ffffff", opacity: 0.08, speed: 15 },
+    defaultConfig: { color: "#ffffff", opacity: 0.08, speed: 15, size: 1 },
     component: GeometricBlocks,
   },
   {
@@ -71,7 +71,7 @@ export const patterns: PatternMeta[] = [
     name: "Perspective Grid",
     description: "Vanishing point floor grid with rising edge elements",
     tags: ["grid", "3d", "perspective"],
-    defaultConfig: { color: "#ffffff", opacity: 0.12, speed: 6 },
+    defaultConfig: { color: "#ffffff", opacity: 0.12, speed: 6, size: 1 },
     component: PerspectiveGrid,
   },
   {
@@ -79,7 +79,7 @@ export const patterns: PatternMeta[] = [
     name: "Concrete Noise",
     description: "Raw concrete grain texture with formwork marks",
     tags: ["texture", "organic", "industrial"],
-    defaultConfig: { color: "#ffffff", opacity: 0.06, speed: 20 },
+    defaultConfig: { color: "#ffffff", opacity: 0.06, speed: 20, size: 1 },
     component: ConcreteNoise,
   },
 ]

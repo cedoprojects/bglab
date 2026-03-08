@@ -2,6 +2,7 @@ export interface PatternConfig {
   color: string
   opacity: number
   speed: number
+  size: number      // grid cell size / dot spacing — 1=fine, 2=coarse
 }
 
 export interface Pattern {

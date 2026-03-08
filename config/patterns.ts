@@ -1,7 +1,7 @@
 import { PatternConfig } from "@/types"
 import { BlueprintGrid } from "@/components/patterns/BlueprintGrid"
 import { DotMatrix } from "@/components/patterns/DotMatrix"
-import { IsometricLines } from "@/components/patterns/IsometricLines"
+import { NodeGraph } from "@/components/patterns/NodeGraph"
 import { StructuralBeams } from "@/components/patterns/StructuralBeams"
 import { Crosshatch } from "@/components/patterns/Crosshatch"
 import { GeometricBlocks } from "@/components/patterns/GeometricBlocks"
@@ -36,11 +36,11 @@ export const patterns: PatternMeta[] = [
   },
   {
     id: "isometric-lines",
-    name: "Isometric Lines",
-    description: "3D wireframe aesthetic with floating diamond blocks",
-    tags: ["geometric", "3d", "architectural"],
-    defaultConfig: { color: "#ffffff", opacity: 0.12, speed: 12, size: 1 },
-    component: IsometricLines,
+    name: "Node Graph",
+    description: "Network of nodes and connections with pulsing rings",
+    tags: ["network", "technical", "nodes"],
+    defaultConfig: { color: "#ffffff", opacity: 0.13, speed: 6, size: 1 },
+    component: NodeGraph,
   },
   {
     id: "structural-beams",

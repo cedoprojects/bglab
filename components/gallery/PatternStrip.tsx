@@ -13,15 +13,15 @@ export function PatternStrip({ activeId, onGenerateClick }: Props) {
   const router = useRouter()
 
   return (
-    <div className="border-b border-white/[0.07] bg-neutral-950 shrink-0">
+    <div className="border-b border-white/[0.1] bg-neutral-900 shrink-0 shadow-lg shadow-black/30">
       <div className="flex items-stretch overflow-x-auto" style={{ scrollbarWidth: "none" }}>
 
         {/* Label */}
-        <div className="shrink-0 px-4 border-r border-white/[0.07] flex items-center">
-          <span className="text-[10px] tracking-widest text-white/20 whitespace-nowrap">PATTERNS</span>
+        <div className="shrink-0 px-4 border-r border-white/[0.08] flex items-center bg-neutral-900">
+          <span className="text-[10px] tracking-widest text-white/45 whitespace-nowrap font-medium">PATTERNS</span>
         </div>
 
-        {/* Curated patterns */}
+        {/* Pattern thumbnails */}
         {patterns.map((p: PatternMeta) => {
           const { component: PatternComponent } = p
           const isActive = p.id === activeId
@@ -30,37 +30,41 @@ export function PatternStrip({ activeId, onGenerateClick }: Props) {
               key={p.id}
               onClick={() => router.push(`/patterns/${p.id}`)}
               title={p.name}
-              className={`group relative shrink-0 overflow-hidden transition-all duration-200 border-r border-white/[0.07] ${
-                isActive ? "ring-1 ring-inset ring-white/30" : "opacity-50 hover:opacity-90"
+              className={`group relative shrink-0 overflow-hidden transition-all duration-200 border-r border-white/[0.08] ${
+                isActive
+                  ? "ring-2 ring-inset ring-white/50 brightness-110"
+                  : "opacity-45 hover:opacity-100"
               }`}
-              style={{ width: 120, height: 68 }}
+              style={{ width: 130, height: 72 }}
             >
-              <div className="absolute inset-0 bg-neutral-900">
-                <PatternComponent {...p.defaultConfig} />
+              <div className="absolute inset-0 bg-neutral-800">
+                <PatternComponent {...p.defaultConfig} opacity={(p.defaultConfig.opacity ?? 0.15) * 1.8} />
               </div>
               <div className={`absolute inset-0 transition-all bg-gradient-to-t ${
-                isActive ? "from-black/70 to-transparent" : "from-black/80 to-black/10 group-hover:from-black/60"
+                isActive ? "from-black/60 to-transparent" : "from-black/75 to-black/5 group-hover:from-black/50"
               }`} />
-              <div className="absolute bottom-0 left-0 right-0 px-2 pb-1.5">
+              <div className="absolute bottom-0 left-0 right-0 px-2.5 pb-2">
                 <p className={`text-[10px] font-medium leading-tight ${
-                  isActive ? "text-white" : "text-white/50 group-hover:text-white/80"
+                  isActive ? "text-white" : "text-white/60 group-hover:text-white"
                 }`}>
                   {p.name}
                 </p>
               </div>
-              {isActive && <div className="absolute top-2 right-2 w-1.5 h-1.5 rounded-full bg-white" />}
+              {isActive && (
+                <div className="absolute top-2 right-2 w-2 h-2 rounded-full bg-white shadow-sm shadow-white/50" />
+              )}
             </button>
           )
         })}
 
-        {/* AI generate button */}
+        {/* AI generate */}
         <button
           onClick={onGenerateClick}
-          className="shrink-0 flex flex-col items-center justify-center gap-1.5 px-5 text-white/30 hover:text-white hover:bg-white/[0.04] transition-all border-r border-white/[0.07]"
-          style={{ minWidth: 100, height: 68 }}
+          className="shrink-0 flex flex-col items-center justify-center gap-1.5 px-5 text-white/40 hover:text-white hover:bg-white/[0.06] transition-all border-r border-white/[0.08]"
+          style={{ minWidth: 100, height: 72 }}
         >
           <Sparkles size={14} />
-          <span className="text-[10px] tracking-wide whitespace-nowrap">Generate</span>
+          <span className="text-[10px] tracking-wide whitespace-nowrap">AI Generate</span>
         </button>
       </div>
     </div>

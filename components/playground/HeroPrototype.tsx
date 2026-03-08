@@ -20,11 +20,11 @@ export interface HeroContent {
 
 export const DEFAULT_HERO_CONTENT: HeroContent = {
   brand: "YOUR BRAND",
-  headline: "Build something\nbeautiful.",
-  subheadline: "The platform for modern teams.",
+  headline: "Build something\npeople love.",
+  subheadline: "Click any text to make it yours. Adjust the pattern, overlay, and layout — then copy the code.",
   cta: "Get Started",
-  ctaSecondary: "View Docs",
-  overlayDarkness: 0.5,
+  ctaSecondary: "See the Docs",
+  overlayDarkness: 0.52,
   overlayTint: "#000000",
   bgColor: "#0a0a0a",
   bgImageUrl: "",
@@ -110,30 +110,30 @@ function CTAButtons({
 // ─── LAYOUT: Left-aligned SaaS (Linear / Vercel style) ─────────────────────
 function LayoutLeft({ content, onUpdate }: { content: HeroContent; onUpdate: (k: keyof HeroContent, v: string) => void }) {
   return (
-    <div className="relative z-10 h-full flex flex-col justify-between p-8 md:p-10">
+    <div className="relative z-10 h-full flex flex-col justify-between p-8 md:p-12">
       <NavBar brand={content.brand} onBrandChange={(v) => onUpdate("brand", v)} />
-      <div className="max-w-lg">
-        <div className="inline-block text-[10px] tracking-widest text-white/40 border border-white/10 px-3 py-1 mb-5">
+      <div className="max-w-2xl">
+        <div className="inline-block text-[10px] tracking-widest text-white/40 border border-white/10 px-3 py-1 mb-6 rounded-full">
           NEW — Just shipped v2.0
         </div>
         <EditableText
           value={content.headline}
           onChange={(v) => onUpdate("headline", v)}
-          className="text-4xl md:text-5xl font-light tracking-tight text-white leading-tight mb-4"
+          className="text-5xl md:text-6xl lg:text-7xl font-extralight tracking-tight text-white leading-[0.95] mb-5"
           multiline
           placeholder="Your headline"
         />
         <EditableText
           value={content.subheadline}
           onChange={(v) => onUpdate("subheadline", v)}
-          className="text-sm text-white/50 mb-8 block max-w-sm"
+          className="text-base md:text-lg text-white/50 mb-9 block max-w-md leading-relaxed"
           placeholder="Supporting copy"
         />
         <CTAButtons
           cta={content.cta} ctaSecondary={content.ctaSecondary}
           onCtaChange={(v) => onUpdate("cta", v)} onCtaSecondaryChange={(v) => onUpdate("ctaSecondary", v)}
         />
-        <p className="text-xs text-white/20 mt-4">No credit card required · Free tier available</p>
+        <p className="text-xs text-white/20 mt-5">No credit card required · Free tier available</p>
       </div>
     </div>
   )
@@ -142,23 +142,20 @@ function LayoutLeft({ content, onUpdate }: { content: HeroContent; onUpdate: (k:
 // ─── LAYOUT: Centered (agency / portfolio style) ────────────────────────────
 function LayoutCentered({ content, onUpdate }: { content: HeroContent; onUpdate: (k: keyof HeroContent, v: string) => void }) {
   return (
-    <div className="relative z-10 h-full flex flex-col justify-between p-8 md:p-10">
+    <div className="relative z-10 h-full flex flex-col justify-between p-8 md:p-12">
       <NavBar brand={content.brand} onBrandChange={(v) => onUpdate("brand", v)} />
       <div className="flex flex-col items-center text-center">
-        <p className="text-[10px] tracking-[0.4em] text-white/30 mb-5 uppercase">
-          <EditableText value={content.brand} onChange={(v) => onUpdate("brand", v)} className="tracking-[0.4em] text-white/30 text-center w-32" />
-        </p>
         <EditableText
           value={content.headline}
           onChange={(v) => onUpdate("headline", v)}
-          className="text-4xl md:text-6xl font-light tracking-tight text-white leading-tight mb-4 text-center"
+          className="text-5xl md:text-7xl lg:text-8xl font-extralight tracking-tight text-white leading-[0.9] mb-5 text-center"
           multiline
           placeholder="Your headline"
         />
         <EditableText
           value={content.subheadline}
           onChange={(v) => onUpdate("subheadline", v)}
-          className="text-sm text-white/50 mb-8 max-w-sm text-center"
+          className="text-base text-white/50 mb-9 max-w-md text-center leading-relaxed"
           placeholder="Supporting copy"
         />
         <CTAButtons
@@ -174,21 +171,21 @@ function LayoutCentered({ content, onUpdate }: { content: HeroContent; onUpdate:
 // ─── LAYOUT: Split (text left, UI card right) ───────────────────────────────
 function LayoutSplit({ content, onUpdate }: { content: HeroContent; onUpdate: (k: keyof HeroContent, v: string) => void }) {
   return (
-    <div className="relative z-10 h-full flex flex-col justify-between p-8 md:p-10">
+    <div className="relative z-10 h-full flex flex-col justify-between p-8 md:p-12">
       <NavBar brand={content.brand} onBrandChange={(v) => onUpdate("brand", v)} />
-      <div className="grid grid-cols-2 gap-8 items-center">
+      <div className="grid grid-cols-2 gap-10 items-center">
         <div>
           <EditableText
             value={content.headline}
             onChange={(v) => onUpdate("headline", v)}
-            className="text-3xl md:text-4xl font-light tracking-tight text-white leading-tight mb-4"
+            className="text-4xl md:text-5xl lg:text-6xl font-extralight tracking-tight text-white leading-[0.95] mb-5"
             multiline
             placeholder="Your headline"
           />
           <EditableText
             value={content.subheadline}
             onChange={(v) => onUpdate("subheadline", v)}
-            className="text-xs text-white/50 mb-6 block"
+            className="text-sm text-white/50 mb-7 block leading-relaxed"
             placeholder="Supporting copy"
           />
           <CTAButtons
@@ -222,7 +219,7 @@ function LayoutSplit({ content, onUpdate }: { content: HeroContent; onUpdate: (k
 // ─── LAYOUT: Minimal (brutalist / awwwards style) ───────────────────────────
 function LayoutMinimal({ content, onUpdate }: { content: HeroContent; onUpdate: (k: keyof HeroContent, v: string) => void }) {
   return (
-    <div className="relative z-10 h-full flex flex-col justify-between p-8 md:p-10">
+    <div className="relative z-10 h-full flex flex-col justify-between p-8 md:p-12">
       <div className="flex justify-between items-start">
         <EditableText
           value={content.brand}
@@ -236,7 +233,7 @@ function LayoutMinimal({ content, onUpdate }: { content: HeroContent; onUpdate: 
         <EditableText
           value={content.headline}
           onChange={(v) => onUpdate("headline", v)}
-          className="text-5xl md:text-7xl font-light tracking-tighter text-white leading-none mb-6"
+          className="text-6xl md:text-8xl lg:text-9xl font-extralight tracking-tighter text-white leading-none mb-8"
           multiline
           placeholder="Big statement."
         />
@@ -244,11 +241,11 @@ function LayoutMinimal({ content, onUpdate }: { content: HeroContent; onUpdate: 
           <EditableText
             value={content.subheadline}
             onChange={(v) => onUpdate("subheadline", v)}
-            className="text-xs text-white/30 max-w-xs"
+            className="text-sm text-white/30 max-w-xs leading-relaxed"
             placeholder="One line. Keep it short."
           />
-          <div className="border border-white/20 px-4 py-2 text-xs tracking-widest text-white/50">
-            <EditableText value={content.cta} onChange={(v) => onUpdate("cta", v)} className="text-white/50 w-20" placeholder="Enter" />
+          <div className="border border-white/20 px-5 py-2.5 text-xs tracking-widest text-white/50">
+            <EditableText value={content.cta} onChange={(v) => onUpdate("cta", v)} className="text-white/50 w-24" placeholder="Enter →" />
           </div>
         </div>
       </div>
@@ -313,11 +310,11 @@ export function HeroPrototype({ pattern, config, content, onContentChange, mobil
       {/* Layout */}
       {layouts[content.layout]}
 
-      {/* Edit badge — persistent, obvious, top-left so it doesn't cover nav links */}
-      <div className="absolute top-0 left-0 right-0 flex justify-center pointer-events-none select-none">
-        <div className="bg-white/10 backdrop-blur-sm border-b border-white/10 px-4 py-1.5 flex items-center gap-2">
-          <div className="w-1.5 h-1.5 rounded-full bg-white/40 animate-pulse" />
-          <span className="text-[10px] tracking-widest text-white/50">CLICK ANY TEXT TO EDIT YOUR HERO</span>
+      {/* Edit hint — bottom corner, unobtrusive */}
+      <div className="absolute bottom-4 right-4 pointer-events-none select-none">
+        <div className="flex items-center gap-1.5 bg-black/30 backdrop-blur-sm rounded-full px-3 py-1.5">
+          <div className="w-1 h-1 rounded-full bg-white/30 animate-pulse" />
+          <span className="text-[9px] tracking-widest text-white/30">CLICK TEXT TO EDIT</span>
         </div>
       </div>
     </div>

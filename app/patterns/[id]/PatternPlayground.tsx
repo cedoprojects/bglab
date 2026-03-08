@@ -128,22 +128,10 @@ function PlaygroundInner({ pattern }: Props) {
             </div>
           </div>
 
-          {/* Overlay bar — glued below preview */}
-          <div className="shrink-0 border-t border-white/[0.07] bg-neutral-950/90 backdrop-blur-sm px-5 py-2.5">
-            <div className="flex items-center gap-4 max-w-2xl">
-              <span className="text-[10px] tracking-widest text-white/25 whitespace-nowrap">OVERLAY</span>
-              <input type="range" min={0} max={0.92} step={0.02} value={content.overlayDarkness}
-                onChange={(e) => handleContent({ ...content, overlayDarkness: parseFloat(e.target.value) })}
-                className="flex-1" />
-              <span className="text-[10px] font-mono text-white/20 w-8 text-right">
-                {Math.round(content.overlayDarkness * 100)}%
-              </span>
-            </div>
-          </div>
         </div>
 
         {/* Control panel */}
-        <div className="w-64 shrink-0 overflow-hidden flex flex-col">
+        <div className="w-72 shrink-0 overflow-hidden flex flex-col">
           <ControlPanel
             config={config} content={content}
             patternId={pattern.id} patternName={pattern.name}

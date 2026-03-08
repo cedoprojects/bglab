@@ -1,217 +1,154 @@
 "use client"
 
 import { Suspense, useState, useEffect, useCallback } from "react"
-import Link from "next/link"
 import { useRouter, useSearchParams } from "next/navigation"
-import { ArrowLeft, Maximize2, Smartphone, Monitor, Link2, Check } from "lucide-react"
+import { Maximize2, Smartphone, Monitor, Link2, Check } from "lucide-react"
+import Link from "next/link"
+import { ArrowLeft } from "lucide-react"
 import { PatternMeta } from "@/config/patterns"
 import { PatternConfig } from "@/types"
 import { ControlPanel } from "@/components/playground/ControlPanel"
 import { HeroPrototype, HeroContent, DEFAULT_HERO_CONTENT } from "@/components/playground/HeroPrototype"
 import { PatternStrip } from "@/components/gallery/PatternStrip"
-import {
-  generateBlueprintGridTSX, generateBlueprintGridCSS,
-  generateDotMatrixTSX,    generateDotMatrixCSS,
-  generateGenericTSX,      generateGenericCSS,
-} from "@/lib/codegen"
+import { AIPanel } from "@/components/generator/AIPanel"
 
 interface Props { pattern: PatternMeta }
-
-function getCode(id: string, name: string, config: PatternConfig) {
-  switch (id) {
-    case "blueprint-grid": return { tsx: generateBlueprintGridTSX(config), css: generateBlueprintGridCSS(config) }
-    case "dot-matrix":     return { tsx: generateDotMatrixTSX(config),     css: generateDotMatrixCSS(config) }
-    default:               return { tsx: generateGenericTSX(id, name, config), css: generateGenericCSS(name, config) }
-  }
-}
 
 function encodeState(config: PatternConfig, content: HeroContent): string {
   try {
     return btoa(encodeURIComponent(JSON.stringify({
-      c: config.color.replace("#", ""), o: config.opacity,
-      sp: config.speed, sz: config.size,
-      bg: content.bgColor.replace("#", ""),
-      ot: content.overlayTint.replace("#", ""),
+      c: config.color.replace("#",""), o: config.opacity, sp: config.speed, sz: config.size,
+      bg: content.bgColor.replace("#",""), ot: content.overlayTint.replace("#",""),
       od: content.overlayDarkness, l: content.layout,
       h: content.headline, sh: content.subheadline,
-      br: content.brand, ct: content.cta,
-      ct2: content.ctaSecondary,
-      // data URLs are too large for btoa — only encode remote URLs
+      br: content.brand, ct: content.cta, ct2: content.ctaSecondary,
       img: content.bgImageUrl.startsWith("data:") ? "" : content.bgImageUrl,
     })))
   } catch { return "" }
 }
 
-function decodeState(encoded: string): { config: PatternConfig; content: HeroContent } | null {
+function decodeState(s: string): { config: PatternConfig; content: HeroContent } | null {
   try {
-    const s = JSON.parse(decodeURIComponent(atob(encoded)))
+    const d = JSON.parse(decodeURIComponent(atob(s)))
     return {
-      config: { color: `#${s.c}`, opacity: s.o, speed: s.sp, size: s.sz ?? 1 },
-      content: {
-        ...DEFAULT_HERO_CONTENT,
-        bgColor: `#${s.bg}`, overlayTint: `#${s.ot}`,
-        overlayDarkness: s.od, layout: s.l,
-        headline: s.h, subheadline: s.sh,
-        brand: s.br, cta: s.ct, ctaSecondary: s.ct2,
-        bgImageUrl: s.img ?? "",
-      },
+      config: { color:`#${d.c}`, opacity:d.o, speed:d.sp, size:d.sz??1 },
+      content: { ...DEFAULT_HERO_CONTENT,
+        bgColor:`#${d.bg}`, overlayTint:`#${d.ot}`, overlayDarkness:d.od,
+        layout:d.l, headline:d.h, subheadline:d.sh,
+        brand:d.br, cta:d.ct, ctaSecondary:d.ct2, bgImageUrl:d.img??"" },
     }
   } catch { return null }
 }
 
 function PlaygroundInner({ pattern }: Props) {
-  const router       = useRouter()
-  const searchParams = useSearchParams()
-
-  const [config, setConfig]             = useState<PatternConfig>(pattern.defaultConfig)
-  const [content, setContent]           = useState<HeroContent>(DEFAULT_HERO_CONTENT)
-  const [mobileView, setMobileView]     = useState(false)
-  const [isFullscreen, setIsFullscreen] = useState(false)
-  const [linkCopied, setLinkCopied]     = useState(false)
+  const router        = useRouter()
+  const searchParams  = useSearchParams()
+  const [config, setConfig]           = useState<PatternConfig>(pattern.defaultConfig)
+  const [content, setContent]         = useState<HeroContent>(DEFAULT_HERO_CONTENT)
+  const [mobileView, setMobileView]   = useState(false)
+  const [fullscreen, setFullscreen]   = useState(false)
+  const [linkCopied, setLinkCopied]   = useState(false)
+  const [aiOpen, setAiOpen]           = useState(false)
 
   useEffect(() => {
     const encoded = searchParams.get("s")
-    if (encoded) {
-      const restored = decodeState(encoded)
-      if (restored) { setConfig(restored.config); setContent(restored.content) }
-    }
+    if (encoded) { const r = decodeState(encoded); if (r) { setConfig(r.config); setContent(r.content) } }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const syncUrl = useCallback((cfg: PatternConfig, cnt: HeroContent) => {
-    const encoded = encodeState(cfg, cnt)
-    if (encoded) router.replace(`?s=${encoded}`, { scroll: false })
+    const e = encodeState(cfg, cnt); if (e) router.replace(`?s=${e}`, { scroll: false })
   }, [router])
 
-  const handleConfigChange = (cfg: PatternConfig) => { setConfig(cfg); syncUrl(cfg, content) }
-  const handleContentChange = (cnt: HeroContent) => { setContent(cnt); syncUrl(config, cnt) }
+  const handleConfig  = (cfg: PatternConfig) => { setConfig(cfg);  syncUrl(cfg, content) }
+  const handleContent = (cnt: HeroContent)   => { setContent(cnt); syncUrl(config, cnt) }
 
   const copyLink = async () => {
     await navigator.clipboard.writeText(window.location.href)
-    setLinkCopied(true)
-    setTimeout(() => setLinkCopied(false), 2000)
+    setLinkCopied(true); setTimeout(() => setLinkCopied(false), 2000)
   }
-
-  const { tsx, css } = getCode(pattern.id, pattern.name, config)
 
   return (
     <div className="h-screen flex flex-col bg-neutral-950 text-white overflow-hidden">
 
-      {/* Fullscreen */}
-      {isFullscreen && (
-        <div className="fixed inset-0 z-50 cursor-pointer" onClick={() => setIsFullscreen(false)}>
-          <HeroPrototype pattern={pattern} config={config} content={content} onContentChange={handleContentChange} />
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 text-xs text-white/30 tracking-widest bg-black/50 px-4 py-2">
+      {fullscreen && (
+        <div className="fixed inset-0 z-50 cursor-pointer" onClick={() => setFullscreen(false)}>
+          <HeroPrototype pattern={pattern} config={config} content={content} onContentChange={handleContent} />
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-[10px] tracking-widest text-white/30 bg-black/50 px-4 py-2">
             CLICK TO EXIT
           </div>
         </div>
       )}
 
-      {/* ── Top nav ─────────────────────────────────────── */}
-      <nav className="flex items-center justify-between px-6 py-3 border-b border-white/5 shrink-0">
-        <Link href="/" className="flex items-center gap-2.5 text-white/40 hover:text-white transition-colors text-xs tracking-widest">
-          <ArrowLeft size={13} />
-          BGLAB
+      {/* AI panel slide-over */}
+      <AIPanel open={aiOpen} onClose={() => setAiOpen(false)} />
+
+      {/* ── Nav ─────────────────────────────────────────── */}
+      <nav className="flex items-center justify-between px-5 py-3 border-b border-white/[0.07] shrink-0">
+        <Link href="/" className="flex items-center gap-2 text-white/30 hover:text-white transition-colors text-xs tracking-widest">
+          <ArrowLeft size={13} /> BGLAB
         </Link>
-        <div className="flex items-center gap-1 text-white font-light">
-          <span className="text-sm">{pattern.name}</span>
-        </div>
-        <div className="flex items-center gap-2">
-          {/* Mobile / desktop toggle */}
+        <span className="text-xs text-white/40 font-light hidden md:block">{pattern.name}</span>
+        <div className="flex items-center gap-1.5">
           <div className="flex border border-white/10 overflow-hidden">
             <button onClick={() => setMobileView(false)}
-              className={`px-2.5 py-1.5 transition-colors ${!mobileView ? "bg-white/10 text-white" : "text-white/30 hover:text-white/60"}`}>
+              className={`px-2.5 py-1.5 transition-colors ${!mobileView ? "bg-white/10 text-white" : "text-white/30 hover:text-white/50"}`}>
               <Monitor size={12} />
             </button>
             <button onClick={() => setMobileView(true)}
-              className={`px-2.5 py-1.5 transition-colors ${mobileView ? "bg-white/10 text-white" : "text-white/30 hover:text-white/60"}`}>
+              className={`px-2.5 py-1.5 transition-colors ${mobileView ? "bg-white/10 text-white" : "text-white/30 hover:text-white/50"}`}>
               <Smartphone size={12} />
             </button>
           </div>
-          <button onClick={() => setIsFullscreen(true)}
+          <button onClick={() => setFullscreen(true)}
             className="px-2.5 py-1.5 border border-white/10 text-white/30 hover:text-white transition-colors">
             <Maximize2 size={12} />
           </button>
           <button onClick={copyLink}
-            className="flex items-center gap-1.5 px-3 py-1.5 border border-white/10 text-[10px] tracking-widest text-white/40 hover:text-white hover:border-white/30 transition-all">
+            className="flex items-center gap-1.5 px-3 py-1.5 border border-white/10 text-[10px] tracking-widest text-white/30 hover:text-white hover:border-white/30 transition-all">
             {linkCopied
-              ? <><Check size={11} className="text-green-400" /><span className="text-green-400">Copied!</span></>
+              ? <><Check size={11} className="text-green-400" /><span className="text-green-400">Copied</span></>
               : <><Link2 size={11} /><span>Share</span></>}
           </button>
         </div>
       </nav>
 
-      {/* ── Pattern strip (always visible) ──────────────── */}
-      <PatternStrip activeId={pattern.id} />
+      {/* ── Pattern strip ─────────────────────────────────── */}
+      <PatternStrip activeId={pattern.id} onGenerateClick={() => setAiOpen(true)} />
 
-      {/* ── Main area (fills remaining height) ──────────── */}
+      {/* ── Main ──────────────────────────────────────────── */}
       <div className="flex flex-1 overflow-hidden">
-
-        {/* LEFT — hero preview + overlay slider */}
-        <div className="flex-1 flex flex-col overflow-hidden">
-
-          {/* Preview */}
-          <div className={`flex-1 overflow-hidden ${mobileView ? "flex items-center justify-center bg-neutral-900/50 p-6" : ""}`}>
-            <div
-              className="h-full overflow-hidden"
-              style={mobileView ? { width: 390, height: "100%", maxHeight: 700 } : { width: "100%", height: "100%" }}
-            >
-              <HeroPrototype
-                pattern={pattern}
-                config={config}
-                content={content}
-                onContentChange={handleContentChange}
-                mobileView={mobileView}
-              />
+        {/* Preview */}
+        <div className={`flex-1 flex flex-col overflow-hidden ${mobileView ? "bg-neutral-900/40" : ""}`}>
+          <div className={`flex-1 overflow-hidden ${mobileView ? "flex items-center justify-center p-6" : ""}`}>
+            <div className="h-full overflow-hidden"
+              style={mobileView ? { width:390, maxHeight:700 } : { width:"100%" }}>
+              <HeroPrototype pattern={pattern} config={config} content={content}
+                onContentChange={handleContent} mobileView={mobileView} />
             </div>
           </div>
 
-          {/* Overlay slider — glued right below the preview, always visible */}
-          <div className="shrink-0 border-t border-white/5 bg-neutral-950/80 backdrop-blur-sm px-6 py-3">
-            <div className="flex items-center gap-4 max-w-lg">
-              <span className="text-[10px] tracking-widest text-white/30 whitespace-nowrap">OVERLAY</span>
-              <input
-                type="range" min={0} max={0.92} step={0.02}
-                value={content.overlayDarkness}
-                onChange={(e) => handleContentChange({ ...content, overlayDarkness: parseFloat(e.target.value) })}
-                className="flex-1"
-              />
-              <span className="text-[10px] font-mono text-white/25 w-8 text-right">
+          {/* Overlay bar — glued below preview */}
+          <div className="shrink-0 border-t border-white/[0.07] bg-neutral-950/90 backdrop-blur-sm px-5 py-2.5">
+            <div className="flex items-center gap-4 max-w-2xl">
+              <span className="text-[10px] tracking-widest text-white/25 whitespace-nowrap">OVERLAY</span>
+              <input type="range" min={0} max={0.92} step={0.02} value={content.overlayDarkness}
+                onChange={(e) => handleContent({ ...content, overlayDarkness: parseFloat(e.target.value) })}
+                className="flex-1" />
+              <span className="text-[10px] font-mono text-white/20 w-8 text-right">
                 {Math.round(content.overlayDarkness * 100)}%
               </span>
-              {/* Tint quick-switch */}
-              <div className="flex gap-1.5">
-                {[
-                  { c: "#000000", t: "Black" },
-                  { c: "#0a0f1e", t: "Navy" },
-                  { c: "#0c0a1e", t: "Violet" },
-                  { c: "#0a1a0f", t: "Forest" },
-                ].map(({ c, t }) => (
-                  <button
-                    key={c}
-                    title={t}
-                    onClick={() => handleContentChange({ ...content, overlayTint: c })}
-                    className={`w-4 h-4 rounded-full border transition-all ${content.overlayTint === c ? "border-white/70 scale-125" : "border-white/20 hover:border-white/50"}`}
-                    style={{ background: c }}
-                  />
-                ))}
-              </div>
             </div>
           </div>
         </div>
 
-        {/* RIGHT — tabbed control panel */}
-        <div className="w-72 shrink-0 border-l border-white/5 overflow-hidden">
+        {/* Control panel */}
+        <div className="w-64 shrink-0 overflow-hidden flex flex-col">
           <ControlPanel
-            config={config}
-            content={content}
-            patternId={pattern.id}
-            patternName={pattern.name}
-            tsx={tsx}
-            css={css}
+            config={config} content={content}
+            patternId={pattern.id} patternName={pattern.name}
             defaultConfig={pattern.defaultConfig}
-            onConfigChange={handleConfigChange}
-            onContentChange={handleContentChange}
+            onConfigChange={handleConfig} onContentChange={handleContent}
           />
         </div>
       </div>
@@ -220,9 +157,5 @@ function PlaygroundInner({ pattern }: Props) {
 }
 
 export function PatternPlayground({ pattern }: Props) {
-  return (
-    <Suspense>
-      <PlaygroundInner pattern={pattern} />
-    </Suspense>
-  )
+  return <Suspense><PlaygroundInner pattern={pattern} /></Suspense>
 }

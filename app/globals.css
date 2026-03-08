@@ -18,6 +18,58 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* ─── Pattern Animations ───────────────────────────────────────────── */
+/* Speed is controlled via --pattern-speed CSS var set on the wrapper   */
+
+@keyframes scan {
+  0% { transform: translateY(-100vh); }
+  100% { transform: translateY(100vh); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.1; }
+  50% { transform: translateY(-20px) rotate(1deg); opacity: 0.2; }
+}
+@keyframes beam {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+@keyframes sweep {
+  0% { background-position: -100% 0; }
+  100% { background-position: 200% 0; }
+}
+@keyframes ripple {
+  0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.3; }
+  100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
+}
+@keyframes build {
+  0%, 100% { opacity: 0.08; transform: scaleY(1); }
+  50% { opacity: 0.15; transform: scaleY(1.02); }
+}
+@keyframes flicker {
+  0%, 90%, 100% { opacity: 0.3; }
+  95% { opacity: 0.6; }
+}
+@keyframes rise {
+  0% { transform: scaleY(0); transform-origin: bottom; opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: scaleY(1); transform-origin: bottom; opacity: 0; }
+}
+@keyframes light-sweep {
+  0% { background-position: -100% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-scan       { animation: scan          var(--pattern-speed, 8s)  linear      infinite; }
+.animate-float      { animation: float         var(--pattern-speed, 6s)  ease-in-out infinite; }
+.animate-beam       { animation: beam          var(--pattern-speed, 4s)  ease-in-out infinite; }
+.animate-sweep      { animation: sweep         var(--pattern-speed, 12s) ease-in-out infinite; }
+.animate-ripple     { animation: ripple        var(--pattern-speed, 6s)  ease-out    infinite; }
+.animate-build      { animation: build         var(--pattern-speed, 8s)  ease-in-out infinite; }
+.animate-flicker    { animation: flicker       var(--pattern-speed, 4s)  ease-in-out infinite; }
+.animate-rise       { animation: rise          var(--pattern-speed, 4s)  ease-out    infinite; }
+.animate-light-sweep{ animation: light-sweep   var(--pattern-speed, 10s) ease-in-out infinite; }
+
+/* ─── Scrollbar ────────────────────────────────────────────────────── */
 /* Scrollbar */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }

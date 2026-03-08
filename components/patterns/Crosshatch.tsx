@@ -2,40 +2,32 @@
 
 import { PatternConfig } from "@/types"
 
-export function Crosshatch({ color = "#ffffff", opacity = 0.1, speed = 10 }: Partial<PatternConfig>) {
+export function Crosshatch({ color = "#ffffff", opacity = 0.15, speed = 12 }: Partial<PatternConfig>) {
   return (
-    <div className="absolute inset-0 overflow-hidden">
-      <style>{`
-        @keyframes bglab-hatch-drift {
-          0% { background-position: 0 0; }
-          100% { background-position: 28px 28px; }
-        }
-      `}</style>
-
-      {/* Crosshatch layer */}
+    <div
+      className="absolute inset-0 overflow-hidden"
+      style={{ color, "--pattern-speed": `${speed}s` } as React.CSSProperties}
+    >
+      <svg className="absolute inset-0 w-full h-full">
+        <defs>
+          <pattern id="crosshatch" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <line x1="0" y1="0" x2="0" y2="40" stroke="currentColor" strokeWidth="0.5" opacity={opacity} />
+            <line x1="20" y1="0" x2="20" y2="40" stroke="currentColor" strokeWidth="0.5" opacity={opacity * 0.6} />
+          </pattern>
+          <pattern id="crosshatch2" width="40" height="40" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+            <line x1="0" y1="0" x2="0" y2="40" stroke="currentColor" strokeWidth="0.5" opacity={opacity} />
+            <line x1="20" y1="0" x2="20" y2="40" stroke="currentColor" strokeWidth="0.5" opacity={opacity * 0.6} />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#crosshatch)" />
+        <rect width="100%" height="100%" fill="url(#crosshatch2)" />
+      </svg>
+      {/* Animated diagonal sweep */}
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 animate-sweep"
         style={{
-          backgroundImage: `
-            repeating-linear-gradient(45deg, ${color} 0, ${color} 1px, transparent 0, transparent 50%),
-            repeating-linear-gradient(-45deg, ${color} 0, ${color} 1px, transparent 0, transparent 50%)
-          `,
-          backgroundSize: "14px 14px",
-          opacity: opacity,
-          animation: `bglab-hatch-drift ${speed}s linear infinite`,
-        }}
-      />
-
-      {/* Coarser overlay */}
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: `
-            repeating-linear-gradient(45deg, ${color} 0, ${color} 1px, transparent 0, transparent 50%),
-            repeating-linear-gradient(-45deg, ${color} 0, ${color} 1px, transparent 0, transparent 50%)
-          `,
-          backgroundSize: "42px 42px",
-          opacity: opacity * 0.4,
+          background: "linear-gradient(to right, transparent 40%, rgba(255,255,255,0.03) 50%, transparent 60%)",
+          backgroundSize: "200% 100%",
         }}
       />
     </div>

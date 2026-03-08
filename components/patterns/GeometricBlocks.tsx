@@ -2,51 +2,59 @@
 
 import { PatternConfig } from "@/types"
 
-export function GeometricBlocks({ color = "#ffffff", opacity = 0.08, speed = 15 }: Partial<PatternConfig>) {
+export function GeometricBlocks({ color = "#ffffff", opacity = 0.08, speed = 8 }: Partial<PatternConfig>) {
   const blocks = [
-    { x: "5%", y: "60%", w: 60, h: 120, delay: 0 },
-    { x: "15%", y: "40%", w: 80, h: 160, delay: 1 },
-    { x: "28%", y: "55%", w: 50, h: 90, delay: 2 },
-    { x: "42%", y: "30%", w: 100, h: 200, delay: 0.5 },
-    { x: "58%", y: "50%", w: 70, h: 130, delay: 1.5 },
-    { x: "72%", y: "35%", w: 90, h: 170, delay: 3 },
-    { x: "86%", y: "55%", w: 55, h: 110, delay: 2.5 },
+    { w: 120, h: 200, x: 10, y: 20, delay: 0 },
+    { w: 80,  h: 150, x: 25, y: 45, delay: 0.5 },
+    { w: 100, h: 180, x: 45, y: 15, delay: 1 },
+    { w: 60,  h: 120, x: 60, y: 55, delay: 1.5 },
+    { w: 140, h: 220, x: 75, y: 25, delay: 2 },
+    { w: 90,  h: 160, x: 88, y: 50, delay: 2.5 },
   ]
 
   return (
-    <div className="absolute inset-0 overflow-hidden">
-      <style>{`
-        @keyframes bglab-rise {
-          0%, 100% { transform: translateY(0); opacity: 0.6; }
-          50% { transform: translateY(-8px); opacity: 1; }
-        }
-      `}</style>
-
-      <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
-        {blocks.map((b, i) => (
-          <g key={i} style={{
-            animation: `bglab-rise ${speed + i * 2}s ease-in-out infinite`,
-            animationDelay: `${b.delay}s`,
-          }}>
-            {/* Building body */}
-            <rect x={b.x} y={b.y} width={b.w} height={b.h} fill="none" stroke={color} strokeWidth="1" opacity={opacity * 5} />
-            {/* Windows */}
-            {[...Array(3)].map((_, row) =>
-              [0, 1].map((col) => (
-                <rect
-                  key={`${row}-${col}`}
-                  x={`calc(${b.x} + ${8 + col * 20}px)`}
-                  y={`calc(${b.y} + ${10 + row * 25}px)`}
-                  width="10"
-                  height="14"
-                  fill={color}
-                  opacity={opacity * 3}
-                />
-              ))
-            )}
-          </g>
-        ))}
-      </svg>
+    <div
+      className="absolute inset-0 overflow-hidden"
+      style={{ color, "--pattern-speed": `${speed}s` } as React.CSSProperties}
+    >
+      {/* Background subtle grid */}
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: `linear-gradient(to right, currentColor 1px, transparent 1px)`,
+          backgroundSize: "80px 80px",
+          opacity: 0.05,
+        }}
+      />
+      {/* Building blocks */}
+      {blocks.map((block, i) => (
+        <div
+          key={i}
+          className="absolute border border-white/[0.08] animate-build"
+          style={{
+            width: `${block.w}px`,
+            height: `${block.h}px`,
+            left: `${block.x}%`,
+            top: `${block.y}%`,
+            animationDelay: `${block.delay}s`,
+            opacity,
+          }}
+        >
+          {/* Inner structure */}
+          <div className="absolute inset-2 border-t border-l border-white/[0.05]" />
+          <div className="absolute bottom-2 right-2 left-2 h-px bg-white/[0.05]" />
+          {/* Windows */}
+          <div className="absolute inset-4 grid grid-cols-2 gap-1 opacity-30">
+            {[...Array(6)].map((_, j) => (
+              <div
+                key={j}
+                className="bg-white/5 animate-flicker"
+                style={{ animationDelay: `${j * 0.3 + block.delay}s` }}
+              />
+            ))}
+          </div>
+        </div>
+      ))}
     </div>
   )
 }

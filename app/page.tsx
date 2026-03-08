@@ -1,7 +1,12 @@
-import { redirect } from "next/navigation"
+import type { Metadata } from "next"
+import { LandingPage } from "./LandingPage"
 
-// Home page drops users directly into the playground
-// Blueprint Grid is the best first impression — readable, animated, instantly impressive
+export const metadata: Metadata = {
+  title: "bglab — Animated CSS Backgrounds",
+  description:
+    "8 production-ready animated CSS background patterns. Preview them live in a hero prototype with your real content, then copy the React or CSS code.",
+}
+
 export default function HomePage() {
-  redirect("/patterns/blueprint-grid")
+  return <LandingPage />
 }

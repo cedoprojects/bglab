@@ -75,10 +75,10 @@ function NavBar({ brand, onBrandChange }: { brand: string; onBrandChange: (v: st
       <EditableText
         value={brand}
         onChange={onBrandChange}
-        className="text-xs tracking-[0.25em] text-white/60 max-w-[160px]"
+        className="text-[14px] tracking-wider text-white/60 max-w-[160px]"
         placeholder="BRAND"
       />
-      <div className="flex gap-5 text-xs text-white/30">
+      <div className="flex gap-5 text-[13px] text-white/30">
         <span>Product</span>
         <span>Docs</span>
         <span>Pricing</span>
@@ -114,7 +114,7 @@ function LayoutLeft({ content, onUpdate }: { content: HeroContent; onUpdate: (k:
       <NavBar brand={content.brand} onBrandChange={(v) => onUpdate("brand", v)} />
       <div className="flex-1 flex items-center">
         <div className="max-w-2xl">
-          <div className="inline-block text-[11px] tracking-widest text-white/55 border border-white/15 px-3 py-1 mb-6 rounded-full">
+          <div className="inline-block text-[13px] tracking-widest text-white/55 border border-white/15 px-3 py-1 mb-6 rounded-full">
             NEW — Just shipped v2.0
           </div>
           <EditableText
@@ -134,7 +134,7 @@ function LayoutLeft({ content, onUpdate }: { content: HeroContent; onUpdate: (k:
             cta={content.cta} ctaSecondary={content.ctaSecondary}
             onCtaChange={(v) => onUpdate("cta", v)} onCtaSecondaryChange={(v) => onUpdate("ctaSecondary", v)}
           />
-          <p className="text-[12px] text-white/35 mt-5">No credit card required · Free tier available</p>
+          <p className="text-[13px] text-white/35 mt-5">No credit card required · Free tier available</p>
         </div>
       </div>
     </div>
@@ -313,9 +313,9 @@ export function HeroPrototype({ pattern, config, content, onContentChange, mobil
 
       {/* Edit hint — bottom corner, unobtrusive */}
       <div className="absolute bottom-4 right-4 pointer-events-none select-none">
-        <div className="flex items-center gap-1.5 bg-black/30 backdrop-blur-sm rounded-full px-3 py-1.5">
+        <div className="flex items-center gap-1.5 bg-black/30 backdrop-blur-sm rounded-full px-3.5 py-2">
           <div className="w-1 h-1 rounded-full bg-white/30 animate-pulse" />
-          <span className="text-[9px] tracking-widest text-white/30">CLICK TEXT TO EDIT</span>
+          <span className="text-[11px] tracking-widest text-white/30">CLICK TEXT TO EDIT</span>
         </div>
       </div>
     </div>

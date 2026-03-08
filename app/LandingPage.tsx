@@ -48,7 +48,7 @@ export function LandingPage() {
         <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-b from-transparent to-[#0a0a0a] pointer-events-none" />
 
         <div className="relative z-10 text-center px-6 max-w-5xl mx-auto">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/[0.13] bg-white/[0.05] px-4 py-1.5 mb-12 text-[12px] text-white/60 backdrop-blur-sm">
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/[0.13] bg-white/[0.05] px-4 py-1.5 mb-12 text-[14px] text-white/60 backdrop-blur-sm">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
             8 patterns — free, no account
           </div>
@@ -81,7 +81,7 @@ export function LandingPage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-end justify-between mb-10">
             <div>
-              <p className="text-[11px] tracking-[0.22em] text-white/40 uppercase mb-2">Patterns</p>
+              <p className="text-[13px] tracking-[0.22em] text-white/40 uppercase mb-2">Patterns</p>
               <h2 className="text-[28px] font-light tracking-tight text-white">8 production-ready backgrounds</h2>
             </div>
             <Link href="/patterns/blueprint-grid"
@@ -104,7 +104,7 @@ export function LandingPage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/15 to-transparent group-hover:from-black/70 transition-all duration-300" />
                   <div className="absolute bottom-0 left-0 right-0 p-4 text-left">
                     <p className="text-[12px] font-semibold text-white/75 group-hover:text-white transition-colors">{p.name}</p>
-                    <p className="text-[10px] text-white/40 mt-0.5 leading-snug line-clamp-1">{p.description}</p>
+                    <p className="text-[13px] text-white/40 mt-0.5 leading-snug line-clamp-1">{p.description}</p>
                   </div>
                   <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
                     <div className="bg-white/15 rounded-full p-1.5 backdrop-blur-sm">
@@ -121,7 +121,7 @@ export function LandingPage() {
       {/* ── Hero layout variants ────────────────────────── */}
       <section className="px-6 md:px-14 py-24 border-t border-white/[0.07]">
         <div className="max-w-7xl mx-auto">
-          <p className="text-[11px] tracking-[0.22em] text-white/40 uppercase mb-3">Layouts</p>
+          <p className="text-[13px] tracking-[0.22em] text-white/40 uppercase mb-3">Layouts</p>
           <h2 className="text-[28px] font-light tracking-tight text-white mb-3">
             4 hero layouts built in
           </h2>
@@ -157,7 +157,7 @@ export function LandingPage() {
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-transparent" />
                 <div className="absolute inset-0 p-7 flex flex-col justify-center">
-                  <div className="inline-block border border-white/20 rounded-md px-2.5 py-1 text-[10px] text-white/60 tracking-widest mb-3 w-fit">
+                  <div className="inline-block border border-white/20 rounded-md px-2.5 py-1 text-[12px] text-white/60 tracking-widest mb-3 w-fit">
                     {item.label.toUpperCase()}
                   </div>
                   <p className="text-[13px] text-white/65 leading-snug max-w-[200px]">{item.desc}</p>
@@ -174,7 +174,7 @@ export function LandingPage() {
       {/* ── How it works ───────────────────────────────── */}
       <section className="px-6 md:px-14 py-24 border-t border-white/[0.07]">
         <div className="max-w-7xl mx-auto">
-          <p className="text-[11px] tracking-[0.22em] text-white/40 uppercase mb-3">How it works</p>
+          <p className="text-[13px] tracking-[0.22em] text-white/40 uppercase mb-3">How it works</p>
           <h2 className="text-[28px] font-light tracking-tight text-white mb-16">
             From pattern to production in minutes
           </h2>
@@ -222,7 +222,7 @@ export function LandingPage() {
       <section className="px-6 md:px-14 py-24 border-t border-white/[0.07]">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
           <div>
-            <p className="text-[11px] tracking-[0.22em] text-white/40 uppercase mb-3">Why bglab</p>
+            <p className="text-[13px] tracking-[0.22em] text-white/40 uppercase mb-3">Why bglab</p>
             <h2 className="text-[28px] font-light tracking-tight text-white mb-5 leading-tight">
               See it with your real content<br />
               <span className="text-white/45">before you write a line of code.</span>
@@ -253,13 +253,13 @@ export function LandingPage() {
             <div className="absolute inset-0" style={{ background: "rgba(0,0,0,0.55)" }} />
             <div className="absolute inset-0 flex flex-col p-8">
               <div className="flex items-center justify-between mb-auto">
-                <span className="text-[10px] tracking-[0.22em] text-white/45">YOUR BRAND</span>
-                <div className="flex gap-4 text-[11px] text-white/30">
+                <span className="text-[13px] tracking-[0.22em] text-white/45">YOUR BRAND</span>
+                <div className="flex gap-4 text-[13px] text-white/30">
                   <span>Product</span><span>Docs</span><span>Pricing</span>
                 </div>
               </div>
               <div>
-                <p className="text-[10px] tracking-widest text-white/35 uppercase mb-3">Click to edit</p>
+                <p className="text-[12px] tracking-widest text-white/35 uppercase mb-3">Click to edit</p>
                 <h3 className="text-4xl font-extralight text-white leading-[0.92] mb-3">
                   Your real headline<br />goes right here.
                 </h3>
@@ -271,7 +271,7 @@ export function LandingPage() {
               </div>
             </div>
             <div className="absolute top-3 right-3 bg-black/40 rounded-md px-2.5 py-1 backdrop-blur-sm">
-              <span className="text-[9px] tracking-widest text-white/40">LIVE PREVIEW</span>
+              <span className="text-[11px] tracking-widest text-white/40">LIVE PREVIEW</span>
             </div>
           </div>
         </div>
@@ -295,7 +295,7 @@ export function LandingPage() {
       {/* ── Footer ─────────────────────────────────────── */}
       <footer className="px-8 md:px-14 py-7 border-t border-white/[0.07] flex items-center justify-between">
         <span className="text-[13px] font-semibold text-white/35">bglab</span>
-        <p className="text-[12px] text-white/25">Animated CSS backgrounds for developers</p>
+        <p className="text-[13px] text-white/45">Animated CSS backgrounds for developers</p>
       </footer>
     </div>
   )

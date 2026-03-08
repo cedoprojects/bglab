@@ -74,7 +74,7 @@ function PlaygroundInner({ pattern }: Props) {
       {fullscreen && (
         <div className="fixed inset-0 z-50 cursor-pointer" onClick={() => setFullscreen(false)}>
           <HeroPrototype pattern={pattern} config={config} content={content} onContentChange={handleContent} />
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-[10px] tracking-widest text-white/30 bg-black/50 px-4 py-2">
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-[13px] tracking-widest text-white/30 bg-black/50 px-4 py-2">
             CLICK TO EXIT
           </div>
         </div>
@@ -85,10 +85,10 @@ function PlaygroundInner({ pattern }: Props) {
 
       {/* ── Nav ─────────────────────────────────────────── */}
       <nav className="flex items-center justify-between px-5 py-3 border-b border-white/[0.07] shrink-0">
-        <Link href="/" className="flex items-center gap-2 text-white/30 hover:text-white transition-colors text-xs tracking-widest">
+        <Link href="/" className="flex items-center gap-2 text-white/55 hover:text-white transition-colors text-sm tracking-widest">
           <ArrowLeft size={13} /> BGLAB
         </Link>
-        <span className="text-xs text-white/40 font-light hidden md:block">{pattern.name}</span>
+        <span className="text-sm text-white/60 font-light hidden md:block">{pattern.name}</span>
         <div className="flex items-center gap-1.5">
           <div className="flex border border-white/10 overflow-hidden">
             <button onClick={() => setMobileView(false)}
@@ -105,7 +105,7 @@ function PlaygroundInner({ pattern }: Props) {
             <Maximize2 size={12} />
           </button>
           <button onClick={copyLink}
-            className="flex items-center gap-1.5 px-3 py-1.5 border border-white/10 text-[10px] tracking-widest text-white/30 hover:text-white hover:border-white/30 transition-all">
+            className="flex items-center gap-1.5 px-3 py-1.5 border border-white/10 text-[13px] tracking-widest text-white/55 hover:text-white hover:border-white/30 transition-all">
             {linkCopied
               ? <><Check size={11} className="text-green-400" /><span className="text-green-400">Copied</span></>
               : <><Link2 size={11} /><span>Share</span></>}

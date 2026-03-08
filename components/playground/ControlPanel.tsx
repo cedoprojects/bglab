@@ -57,7 +57,7 @@ function Slider({
       <div className="flex justify-between items-center">
         <span className="text-[13px] text-white/70">{label}</span>
         <div className="flex items-center gap-1.5">
-          <span className="text-[12px] text-white/45 font-mono tabular-nums">{format(value)}</span>
+          <span className="text-[13px] text-white/55 font-mono tabular-nums">{format(value)}</span>
           {!isDefault && (
             <button onClick={() => onChange(defaultValue)} title="Reset"
               className="text-white/30 hover:text-white/70 transition-colors">
@@ -77,7 +77,7 @@ function Slider({
 }
 
 function FieldLabel({ children }: { children: React.ReactNode }) {
-  return <p className="text-[11px] text-white/45 mb-2">{children}</p>
+  return <p className="text-[13px] text-white/60 mb-2">{children}</p>
 }
 
 function ColorDots({
@@ -145,10 +145,10 @@ export function ControlPanel({
       <div className="flex shrink-0 border-b border-white/[0.08]">
         {PANEL_TABS.map((t) => (
           <button key={t.id} onClick={() => setPanelTab(t.id)}
-            className={`flex-1 py-3 text-[10px] tracking-widest transition-colors ${
+            className={`flex-1 py-3 text-[13px] tracking-widest transition-colors ${
               panelTab === t.id
                 ? "text-white border-b-2 border-white -mb-px"
-                : "text-white/35 hover:text-white/65"
+                : "text-white/55 hover:text-white/65"
             }`}>
             {t.label.toUpperCase()}
           </button>
@@ -197,7 +197,7 @@ export function ControlPanel({
                 allowCustom customValue={content.overlayTint}
                 onCustomChange={(c) => setContent("overlayTint", c)} />
             </div>
-            <p className="text-[11px] text-white/35 leading-relaxed pt-1">
+            <p className="text-[13px] text-white/55 leading-relaxed pt-1">
               Overlay sits between the pattern and your content. Increase darkness to make text pop. Tint adds a color wash.
             </p>
           </>
@@ -217,7 +217,7 @@ export function ControlPanel({
                   <p className={`text-[13px] font-medium leading-none mb-1 ${content.layout === l.id ? "text-white" : "text-white/55"}`}>
                     {l.label}
                   </p>
-                  <p className="text-[11px] text-white/30">{l.desc}</p>
+                  <p className="text-[13px] text-white/50">{l.desc}</p>
                 </button>
               ))}
             </div>
@@ -255,7 +255,7 @@ export function ControlPanel({
                 </button>
               )}
               <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={handleFileUpload} />
-              <p className="text-[11px] text-white/30 mt-3 leading-relaxed">
+              <p className="text-[13px] text-white/50 mt-3 leading-relaxed">
                 Image sits behind the pattern. Use the overlay to blend them together.
               </p>
             </div>
@@ -265,11 +265,11 @@ export function ControlPanel({
 
       {/* ── Get code — pinned bottom ─────────────────────── */}
       <div className="shrink-0 border-t border-white/[0.08] p-4 space-y-3">
-        <div className="flex rounded-lg overflow-hidden border border-white/[0.09] text-[10px] tracking-widest">
+        <div className="flex rounded-lg overflow-hidden border border-white/[0.09] text-[13px] tracking-widest">
           {(["react", "css", "section"] as CopyFormat[]).map((f) => (
             <button key={f} onClick={() => setCopyFormat(f)}
               className={`flex-1 py-2.5 transition-colors ${
-                copyFormat === f ? "bg-white/10 text-white" : "text-white/35 hover:text-white/60"
+                copyFormat === f ? "bg-white/10 text-white" : "text-white/55 hover:text-white/60"
               }`}>
               {f === "react" ? "REACT" : f === "css" ? "CSS" : "FULL"}
             </button>
@@ -281,7 +281,7 @@ export function ControlPanel({
             ? <><Check size={14} className="text-green-600" /><span className="text-green-700">Copied!</span></>
             : <><Copy size={14} />Copy Code</>}
         </button>
-        <p className="text-[10px] text-white/30 text-center">
+        <p className="text-[13px] text-white/50 text-center">
           {copyFormat === "react"   && "Drop into /components and import"}
           {copyFormat === "css"     && "Paste in any stylesheet"}
           {copyFormat === "section" && "Full hero section with your content"}

@@ -5,9 +5,10 @@ import "./globals.css"
 // Inter is the industry standard for SaaS UIs — Linear, GitHub, Notion, Stripe all use it.
 // Geist is fine but Inter has better optical sizing and is more recognizable to developers.
 const inter = Inter({
-  variable: "--font-geist-sans",
+  variable: "--font-inter",
   subsets: ["latin"],
   display: "swap",
+  weight: ["300", "400", "500", "600", "700"],
 })
 
 const geistMono = Geist_Mono({
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${inter.variable} ${geistMono.variable} antialiased`} style={{ fontFamily: "var(--font-inter), system-ui, sans-serif" }}>
         {children}
       </body>
     </html>

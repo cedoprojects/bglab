@@ -2,14 +2,15 @@
 
 import { PatternConfig } from "@/types"
 
-export function GeometricBlocks({ color = "#ffffff", opacity = 0.08, speed = 8 }: Partial<PatternConfig>) {
+export function GeometricBlocks({ color = "#ffffff", opacity = 0.08, speed = 8, size = 1 }: Partial<PatternConfig>) {
+  const s = size
   const blocks = [
-    { w: 120, h: 200, x: 10, y: 20, delay: 0 },
-    { w: 80,  h: 150, x: 25, y: 45, delay: 0.5 },
-    { w: 100, h: 180, x: 45, y: 15, delay: 1 },
-    { w: 60,  h: 120, x: 60, y: 55, delay: 1.5 },
-    { w: 140, h: 220, x: 75, y: 25, delay: 2 },
-    { w: 90,  h: 160, x: 88, y: 50, delay: 2.5 },
+    { w: Math.round(120*s), h: Math.round(200*s), x: 10, y: 20, delay: 0 },
+    { w: Math.round(80*s),  h: Math.round(150*s), x: 25, y: 45, delay: 0.5 },
+    { w: Math.round(100*s), h: Math.round(180*s), x: 45, y: 15, delay: 1 },
+    { w: Math.round(60*s),  h: Math.round(120*s), x: 60, y: 55, delay: 1.5 },
+    { w: Math.round(140*s), h: Math.round(220*s), x: 75, y: 25, delay: 2 },
+    { w: Math.round(90*s),  h: Math.round(160*s), x: 88, y: 50, delay: 2.5 },
   ]
 
   return (

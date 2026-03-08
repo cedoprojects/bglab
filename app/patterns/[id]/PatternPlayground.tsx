@@ -207,6 +207,7 @@ function PlaygroundInner({ pattern }: Props) {
             patternName={pattern.name}
             tsx={tsx}
             css={css}
+            defaultConfig={pattern.defaultConfig}
             onConfigChange={handleConfigChange}
             onContentChange={handleContentChange}
           />

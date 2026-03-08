@@ -2,7 +2,8 @@
 
 import { PatternConfig } from "@/types"
 
-export function ConcreteNoise({ color = "#ffffff", opacity = 0.04, speed = 10 }: Partial<PatternConfig>) {
+export function ConcreteNoise({ color = "#ffffff", opacity = 0.04, speed = 10, size = 1 }: Partial<PatternConfig>) {
+  const markSpacing = Math.round(120 * size)
   return (
     <div
       className="absolute inset-0 overflow-hidden"
@@ -26,7 +27,7 @@ export function ConcreteNoise({ color = "#ffffff", opacity = 0.04, speed = 10 }:
       <div
         className="absolute inset-0"
         style={{
-          backgroundImage: `repeating-linear-gradient(90deg, transparent, transparent 119px, currentColor 119px, currentColor 120px)`,
+          backgroundImage: `repeating-linear-gradient(90deg, transparent, transparent ${markSpacing - 1}px, currentColor ${markSpacing - 1}px, currentColor ${markSpacing}px)`,
           opacity: opacity * 1.5,
         }}
       />

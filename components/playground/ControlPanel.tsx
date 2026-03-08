@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
+import { RotateCcw } from "lucide-react"
 import { HeroContent, HeroLayout } from "./HeroPrototype"
 import { PatternConfig } from "@/types"
 import { CodePanel } from "./CodePanel"
@@ -12,6 +13,7 @@ interface Props {
   patternName: string
   tsx: string
   css: string
+  defaultConfig: PatternConfig
   onConfigChange: (c: PatternConfig) => void
   onContentChange: (c: HeroContent) => void
 }
@@ -19,10 +21,10 @@ interface Props {
 type Tab = "pattern" | "background" | "export"
 
 const LAYOUTS: { id: HeroLayout; label: string; desc: string }[] = [
-  { id: "left",     label: "SaaS",     desc: "Linear / Vercel style" },
-  { id: "centered", label: "Centered", desc: "Agency / portfolio" },
+  { id: "left",     label: "SaaS",     desc: "Linear · Vercel style" },
+  { id: "centered", label: "Centered", desc: "Agency · portfolio" },
   { id: "split",    label: "Split",    desc: "Text + UI card" },
-  { id: "minimal",  label: "Minimal",  desc: "Brutalist / awwwards" },
+  { id: "minimal",  label: "Minimal",  desc: "Brutalist · awwwards" },
 ]
 
 const BG_PRESETS = [
@@ -43,54 +45,118 @@ const TINT_PRESETS = [
   { color: "#1a0a0a", label: "Ember" },
 ]
 
+const PATTERN_COLORS = ["#ffffff", "#94a3b8", "#60a5fa", "#34d399", "#f59e0b", "#f472b6"]
+
 function SectionLabel({ children }: { children: React.ReactNode }) {
-  return <p className="text-[10px] tracking-widest text-white/30 uppercase mb-2.5">{children}</p>
+  return <p className="text-[10px] tracking-widest text-white/30 uppercase mb-2">{children}</p>
 }
 
 function Divider() {
-  return <div className="h-px bg-white/5 my-5" />
+  return <div className="h-px bg-white/[0.06] my-4" />
 }
 
-function Slider({
-  label, value, min, max, step, display, onChange,
-}: {
-  label: string; value: number; min: number; max: number
-  step: number; display: string; onChange: (v: number) => void
+function ColorSwatch({ color, active, label, onClick }: {
+  color: string; active: boolean; label: string; onClick: () => void
 }) {
   return (
-    <div className="space-y-1.5">
-      <div className="flex justify-between">
-        <span className="text-xs text-white/50">{label}</span>
-        <span className="text-xs text-white/25 font-mono">{display}</span>
-      </div>
-      <input type="range" min={min} max={max} step={step} value={value}
-        onChange={(e) => onChange(parseFloat(e.target.value))} />
-    </div>
+    <button onClick={onClick} title={label} className="flex flex-col items-center gap-1 group">
+      <div
+        className={`w-7 h-7 rounded border-2 transition-all ${
+          active ? "border-white/80 scale-110 shadow-lg" : "border-transparent hover:border-white/30"
+        }`}
+        style={{ background: color }}
+      />
+      <span className={`text-[9px] transition-colors ${active ? "text-white/60" : "text-white/20 group-hover:text-white/40"}`}>
+        {label}
+      </span>
+    </button>
   )
 }
 
-function ColorSwatch({ color, active, label, onClick }: { color: string; active: boolean; label: string; onClick: () => void }) {
+// Slider with default indicator and reset button
+function SmartSlider({
+  label, value, defaultValue, min, max, step,
+  formatDisplay, onChange, hint,
+}: {
+  label: string
+  value: number
+  defaultValue: number
+  min: number
+  max: number
+  step: number
+  formatDisplay: (v: number) => string
+  onChange: (v: number) => void
+  hint?: string
+}) {
+  const isDefault = Math.abs(value - defaultValue) < step * 0.5
+  const defaultPct = ((defaultValue - min) / (max - min)) * 100
+
   return (
-    <button onClick={onClick} className="flex flex-col items-center gap-1 group">
-      <div
-        className={`w-8 h-8 rounded border-2 transition-all ${active ? "border-white/70 scale-110" : "border-white/10 group-hover:border-white/40"}`}
-        style={{ background: color }}
-      />
-      <span className="text-[9px] text-white/25 group-hover:text-white/50 transition-colors">{label}</span>
-    </button>
+    <div className="space-y-1.5">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-1.5">
+          <span className="text-xs text-white/50">{label}</span>
+          {isDefault && (
+            <span className="text-[9px] tracking-wide text-white/20 border border-white/10 px-1.5 py-px rounded-sm">
+              default
+            </span>
+          )}
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-white/30 font-mono">{formatDisplay(value)}</span>
+          {!isDefault && (
+            <button
+              onClick={() => onChange(defaultValue)}
+              title="Reset to default"
+              className="text-white/20 hover:text-white/60 transition-colors"
+            >
+              <RotateCcw size={10} />
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Slider with default tick */}
+      <div className="relative">
+        <input
+          type="range" min={min} max={max} step={step} value={value}
+          onChange={(e) => onChange(parseFloat(e.target.value))}
+          className="w-full"
+        />
+        {/* Default position tick */}
+        <div
+          className="absolute top-1/2 -translate-y-1/2 w-px h-3 bg-white/20 pointer-events-none"
+          style={{ left: `${defaultPct}%` }}
+        />
+      </div>
+
+      {hint && <p className="text-[10px] text-white/15">{hint}</p>}
+    </div>
   )
 }
 
 export function ControlPanel({
   config, content, patternId, patternName, tsx, css,
-  onConfigChange, onContentChange,
+  defaultConfig, onConfigChange, onContentChange,
 }: Props) {
   const [tab, setTab] = useState<Tab>("pattern")
+  const fileInputRef  = useRef<HTMLInputElement>(null)
 
-  const setConfig = (key: keyof PatternConfig, val: string | number) =>
+  const setConfig  = (key: keyof PatternConfig, val: string | number) =>
     onConfigChange({ ...config, [key]: val })
   const setContent = (key: keyof HeroContent, val: string | number) =>
     onContentChange({ ...content, [key]: val })
+
+  function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = (ev) => {
+      const dataUrl = ev.target?.result as string
+      if (dataUrl) setContent("bgImageUrl", dataUrl)
+    }
+    reader.readAsDataURL(file)
+  }
 
   const tabs: { id: Tab; label: string }[] = [
     { id: "pattern",    label: "Pattern" },
@@ -99,7 +165,7 @@ export function ControlPanel({
   ]
 
   return (
-    <div className="flex flex-col h-full border border-white/10 bg-neutral-900/30">
+    <div className="flex flex-col h-full">
       {/* Tab bar */}
       <div className="flex border-b border-white/10 shrink-0">
         {tabs.map((t) => (
@@ -108,8 +174,8 @@ export function ControlPanel({
             onClick={() => setTab(t.id)}
             className={`flex-1 py-3 text-[10px] tracking-widest transition-colors ${
               tab === t.id
-                ? "text-white border-b border-white bg-white/[0.03]"
-                : "text-white/30 hover:text-white/60"
+                ? "text-white border-b-2 border-white bg-white/[0.04]"
+                : "text-white/30 hover:text-white/60 hover:bg-white/[0.02]"
             }`}
           >
             {t.label.toUpperCase()}
@@ -117,31 +183,36 @@ export function ControlPanel({
         ))}
       </div>
 
-      {/* Tab content */}
       <div className="flex-1 overflow-y-auto">
 
-        {/* ── PATTERN TAB ─────────────────────────────── */}
+        {/* ─── PATTERN TAB ──────────────────────────────────── */}
         {tab === "pattern" && (
-          <div className="p-5 space-y-5">
+          <div className="p-4 space-y-4">
+
+            {/* Color */}
             <div>
-              <SectionLabel>Color</SectionLabel>
-              <div className="flex items-center gap-3">
-                <input type="color" value={config.color}
+              <SectionLabel>Pattern Color</SectionLabel>
+              <div className="flex items-center gap-2 mb-2.5">
+                <input
+                  type="color" value={config.color}
                   onChange={(e) => setConfig("color", e.target.value)}
-                  className="w-9 h-9 rounded cursor-pointer bg-transparent border border-white/10 shrink-0"
+                  className="w-9 h-9 rounded cursor-pointer border border-white/10 bg-transparent shrink-0"
                 />
-                <input type="text" value={config.color}
+                <input
+                  type="text" value={config.color}
                   onChange={(e) => { if (/^#[0-9a-fA-F]{0,6}$/.test(e.target.value)) setConfig("color", e.target.value) }}
-                  className="flex-1 bg-white/5 border border-white/10 text-white/60 text-xs font-mono px-3 py-2 focus:outline-none focus:border-white/30"
+                  className="flex-1 bg-white/5 border border-white/10 text-white/60 text-xs font-mono px-3 py-2 focus:outline-none focus:border-white/30 min-w-0"
                 />
               </div>
-              {/* Quick color presets */}
-              <div className="flex gap-2 mt-2.5">
-                {["#ffffff", "#94a3b8", "#60a5fa", "#34d399", "#f59e0b", "#f87171"].map((c) => (
+              <div className="flex gap-2">
+                {PATTERN_COLORS.map((c) => (
                   <button
                     key={c}
                     onClick={() => setConfig("color", c)}
-                    className={`w-5 h-5 rounded-full border transition-all ${config.color === c ? "border-white/80 scale-125" : "border-white/10 hover:border-white/40"}`}
+                    title={c}
+                    className={`w-5 h-5 rounded-full border-2 transition-all ${
+                      config.color === c ? "border-white/80 scale-125" : "border-white/10 hover:border-white/50"
+                    }`}
                     style={{ background: c }}
                   />
                 ))}
@@ -150,52 +221,56 @@ export function ControlPanel({
 
             <Divider />
 
-            <Slider
-              label="Opacity" value={config.opacity} min={0.02} max={0.5} step={0.01}
-              display={`${Math.round(config.opacity * 100)}%`}
+            <SmartSlider
+              label="Opacity" value={config.opacity} defaultValue={defaultConfig.opacity}
+              min={0.02} max={0.5} step={0.01}
+              formatDisplay={(v) => `${Math.round(v * 100)}%`}
               onChange={(v) => setConfig("opacity", v)}
+              hint="How visible the pattern is against the background"
             />
 
-            <Slider
-              label="Speed" value={config.speed} min={2} max={30} step={0.5}
-              display={`${config.speed}s`}
+            <SmartSlider
+              label="Animation Speed" value={config.speed} defaultValue={defaultConfig.speed}
+              min={2} max={30} step={0.5}
+              formatDisplay={(v) => `${v}s`}
               onChange={(v) => setConfig("speed", v)}
+              hint="Lower = faster animation cycle"
             />
 
             <Divider />
 
-            <div>
-              <SectionLabel>Density / Scale</SectionLabel>
-              <Slider
-                label="Grid size" value={config.size} min={0.4} max={3} step={0.1}
-                display={config.size === 1 ? "Default" : config.size < 1 ? "Fine" : "Coarse"}
-                onChange={(v) => setConfig("size", v)}
-              />
-              <p className="text-[10px] text-white/20 mt-1.5">Controls cell size for grid, dot, and hatch patterns</p>
-            </div>
+            <SmartSlider
+              label="Density / Scale" value={config.size} defaultValue={1}
+              min={0.4} max={3} step={0.1}
+              formatDisplay={(v) =>
+                v < 0.7 ? "Fine" : v < 1.3 ? "Default" : v < 2 ? "Coarse" : "Bold"
+              }
+              onChange={(v) => setConfig("size", v)}
+              hint="Controls grid cell size, dot spacing, or beam count"
+            />
           </div>
         )}
 
-        {/* ── BACKGROUND TAB ──────────────────────────── */}
+        {/* ─── BACKGROUND TAB ───────────────────────────────── */}
         {tab === "background" && (
-          <div className="p-5 space-y-5">
+          <div className="p-4 space-y-4">
 
-            {/* Layout */}
+            {/* Layout picker */}
             <div>
               <SectionLabel>Hero Layout</SectionLabel>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-2 gap-1.5">
                 {LAYOUTS.map((l) => (
                   <button
                     key={l.id}
                     onClick={() => setContent("layout", l.id)}
                     className={`py-2 px-3 text-left border transition-all ${
                       content.layout === l.id
-                        ? "border-white/40 bg-white/5"
-                        : "border-white/10 hover:border-white/20"
+                        ? "border-white/50 bg-white/[0.06] text-white"
+                        : "border-white/10 hover:border-white/25 text-white/50"
                     }`}
                   >
-                    <p className={`text-xs ${content.layout === l.id ? "text-white" : "text-white/50"}`}>{l.label}</p>
-                    <p className="text-[9px] text-white/20 mt-0.5">{l.desc}</p>
+                    <p className="text-xs font-medium">{l.label}</p>
+                    <p className="text-[9px] text-white/30 mt-0.5">{l.desc}</p>
                   </button>
                 ))}
               </div>
@@ -206,35 +281,37 @@ export function ControlPanel({
             {/* Background color */}
             <div>
               <SectionLabel>Background Color</SectionLabel>
-              <div className="flex gap-3 flex-wrap mb-3">
+              <div className="flex flex-wrap gap-x-3 gap-y-2 mb-2.5">
                 {BG_PRESETS.map((p) => (
-                  <ColorSwatch key={p.color} color={p.color} label={p.label}
-                    active={content.bgColor === p.color} onClick={() => setContent("bgColor", p.color)} />
+                  <ColorSwatch key={p.color} {...p} active={content.bgColor === p.color}
+                    onClick={() => setContent("bgColor", p.color)} />
                 ))}
               </div>
               <div className="flex items-center gap-2">
                 <input type="color" value={content.bgColor}
                   onChange={(e) => setContent("bgColor", e.target.value)}
-                  className="w-7 h-7 rounded cursor-pointer border border-white/10"
+                  className="w-7 h-7 rounded cursor-pointer border border-white/10 bg-transparent"
                 />
                 <span className="text-xs text-white/30 font-mono">{content.bgColor}</span>
+                <span className="text-[10px] text-white/15 ml-auto">Custom</span>
               </div>
             </div>
 
             <Divider />
 
-            {/* Overlay */}
+            {/* Overlay tint */}
             <div>
               <SectionLabel>Overlay Tint</SectionLabel>
-              <div className="flex gap-3 flex-wrap mb-3">
+              <div className="flex flex-wrap gap-x-3 gap-y-2 mb-2.5">
                 {TINT_PRESETS.map((p) => (
-                  <ColorSwatch key={p.color} color={p.color} label={p.label}
-                    active={content.overlayTint === p.color} onClick={() => setContent("overlayTint", p.color)} />
+                  <ColorSwatch key={p.color} {...p} active={content.overlayTint === p.color}
+                    onClick={() => setContent("overlayTint", p.color)} />
                 ))}
               </div>
-              <Slider
-                label="Darkness" value={content.overlayDarkness} min={0} max={0.92} step={0.02}
-                display={`${Math.round(content.overlayDarkness * 100)}%`}
+              <SmartSlider
+                label="Darkness" value={content.overlayDarkness} defaultValue={0.5}
+                min={0} max={0.92} step={0.02}
+                formatDisplay={(v) => `${Math.round(v * 100)}%`}
                 onChange={(v) => setContent("overlayDarkness", v)}
               />
             </div>
@@ -244,34 +321,75 @@ export function ControlPanel({
             {/* Background image */}
             <div>
               <SectionLabel>Background Image</SectionLabel>
-              <p className="text-[10px] text-white/30 mb-2">Pattern animates on top of your photo</p>
+              <p className="text-[10px] text-white/25 mb-3 leading-relaxed">
+                Pattern animates on top of your image. Great for photo backgrounds.
+              </p>
 
               {content.bgImageUrl ? (
                 <div className="space-y-2">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={content.bgImageUrl} alt="" className="w-full h-20 object-cover border border-white/10"
-                    onError={(e) => (e.currentTarget.style.opacity = "0.3")} />
-                  <button onClick={() => setContent("bgImageUrl", "")}
-                    className="text-xs text-red-400/60 hover:text-red-400 transition-colors">
-                    Remove image
-                  </button>
+                  <img
+                    src={content.bgImageUrl}
+                    alt="Background preview"
+                    className="w-full h-24 object-cover border border-white/10 rounded-sm"
+                    onError={(e) => { e.currentTarget.style.opacity = "0.3" }}
+                  />
+                  <div className="flex gap-3">
+                    <button
+                      onClick={() => fileInputRef.current?.click()}
+                      className="text-xs text-white/40 hover:text-white transition-colors"
+                    >
+                      Change image
+                    </button>
+                    <button
+                      onClick={() => setContent("bgImageUrl", "")}
+                      className="text-xs text-red-400/50 hover:text-red-400 transition-colors"
+                    >
+                      Remove
+                    </button>
+                  </div>
                 </div>
               ) : (
-                <input
-                  type="text"
-                  value={content.bgImageUrl}
-                  onChange={(e) => setContent("bgImageUrl", e.target.value)}
-                  placeholder="Paste image URL..."
-                  className="w-full bg-white/5 border border-dashed border-white/20 text-white/60 text-xs px-3 py-3 focus:outline-none focus:border-white/40 placeholder-white/20"
-                />
+                <div className="space-y-2">
+                  {/* Upload button */}
+                  <button
+                    onClick={() => fileInputRef.current?.click()}
+                    className="w-full border border-dashed border-white/20 py-4 text-xs text-white/40 hover:border-white/40 hover:text-white/70 hover:bg-white/[0.02] transition-all text-center"
+                  >
+                    Click to upload from your device
+                  </button>
+
+                  {/* URL fallback */}
+                  <div className="flex items-center gap-2">
+                    <div className="h-px bg-white/10 flex-1" />
+                    <span className="text-[10px] text-white/20">or paste URL</span>
+                    <div className="h-px bg-white/10 flex-1" />
+                  </div>
+                  <input
+                    type="text"
+                    value={content.bgImageUrl}
+                    onChange={(e) => setContent("bgImageUrl", e.target.value)}
+                    placeholder="https://..."
+                    className="w-full bg-white/5 border border-white/10 text-white/50 text-xs px-3 py-2 focus:outline-none focus:border-white/30 placeholder-white/15"
+                  />
+                </div>
               )}
+
+              {/* Hidden file input */}
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleFileUpload}
+              />
             </div>
           </div>
         )}
 
-        {/* ── EXPORT TAB ──────────────────────────────── */}
+        {/* ─── EXPORT TAB ───────────────────────────────────── */}
         {tab === "export" && (
-          <div className="p-3 h-full" style={{ minHeight: "400px" }}>
+          <div className="p-3" style={{ height: "calc(100% - 44px)" }}>
             <CodePanel
               tsx={tsx} css={css}
               patternId={patternId} patternName={patternName}

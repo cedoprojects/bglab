@@ -313,9 +313,12 @@ export function HeroPrototype({ pattern, config, content, onContentChange, mobil
       {/* Layout */}
       {layouts[content.layout]}
 
-      {/* Hint */}
-      <div className="absolute top-3 right-3 text-[9px] tracking-wider text-white/15 pointer-events-none select-none">
-        CLICK TEXT TO EDIT
+      {/* Edit badge — persistent, obvious, top-left so it doesn't cover nav links */}
+      <div className="absolute top-0 left-0 right-0 flex justify-center pointer-events-none select-none">
+        <div className="bg-white/10 backdrop-blur-sm border-b border-white/10 px-4 py-1.5 flex items-center gap-2">
+          <div className="w-1.5 h-1.5 rounded-full bg-white/40 animate-pulse" />
+          <span className="text-[10px] tracking-widest text-white/50">CLICK ANY TEXT TO EDIT YOUR HERO</span>
+        </div>
       </div>
     </div>
   )

@@ -2,7 +2,8 @@
 
 import { PatternConfig } from "@/types"
 
-export function PerspectiveGrid({ color = "#ffffff", opacity = 0.15, speed = 4 }: Partial<PatternConfig>) {
+export function PerspectiveGrid({ color = "#ffffff", opacity = 0.15, speed = 4, size = 1 }: Partial<PatternConfig>) {
+  const lineCount = Math.max(6, Math.round(20 / size))
   return (
     <div
       className="absolute inset-0 overflow-hidden"
@@ -16,9 +17,10 @@ export function PerspectiveGrid({ color = "#ffffff", opacity = 0.15, speed = 4 }
           </linearGradient>
         </defs>
         {/* Converging vertical lines */}
-        {[...Array(20)].map((_, i) => {
-          const startX = 50 + (i - 10) * 5
-          const endX   = 50 + (i - 10) * 15
+        {[...Array(lineCount)].map((_, i) => {
+          const half = lineCount / 2
+          const startX = 50 + (i - half) * (100 / lineCount)
+          const endX   = 50 + (i - half) * (300 / lineCount)
           return (
             <line
               key={`v-${i}`}

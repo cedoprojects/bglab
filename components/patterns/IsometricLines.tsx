@@ -2,7 +2,8 @@
 
 import { PatternConfig } from "@/types"
 
-export function IsometricLines({ color = "#ffffff", opacity = 0.15, speed = 6 }: Partial<PatternConfig>) {
+export function IsometricLines({ color = "#ffffff", opacity = 0.15, speed = 6, size = 1 }: Partial<PatternConfig>) {
+  const cell = Math.round(100 * size)
   return (
     <div
       className="absolute inset-0 overflow-hidden"
@@ -10,11 +11,11 @@ export function IsometricLines({ color = "#ffffff", opacity = 0.15, speed = 6 }:
     >
       <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none">
         <defs>
-          <pattern id="iso-pattern" width="100" height="100" patternUnits="userSpaceOnUse">
-            <line x1="0" y1="100" x2="100" y2="50" stroke="currentColor" strokeWidth="0.5" opacity={opacity} />
-            <line x1="0" y1="50" x2="100" y2="0" stroke="currentColor" strokeWidth="0.5" opacity={opacity} />
-            <line x1="0" y1="50" x2="100" y2="100" stroke="currentColor" strokeWidth="0.5" opacity={opacity} />
-            <line x1="0" y1="0" x2="100" y2="50" stroke="currentColor" strokeWidth="0.5" opacity={opacity} />
+          <pattern id="iso-pattern" width={cell} height={cell} patternUnits="userSpaceOnUse">
+            <line x1="0" y1={cell} x2={cell} y2={cell/2} stroke="currentColor" strokeWidth="0.5" opacity={opacity} />
+            <line x1="0" y1={cell/2} x2={cell} y2="0" stroke="currentColor" strokeWidth="0.5" opacity={opacity} />
+            <line x1="0" y1={cell/2} x2={cell} y2={cell} stroke="currentColor" strokeWidth="0.5" opacity={opacity} />
+            <line x1="0" y1="0" x2={cell} y2={cell/2} stroke="currentColor" strokeWidth="0.5" opacity={opacity} />
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#iso-pattern)" />

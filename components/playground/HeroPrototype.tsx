@@ -120,7 +120,7 @@ function LayoutLeft({ content, onUpdate }: { content: HeroContent; onUpdate: (k:
           <EditableText
             value={content.headline}
             onChange={(v) => onUpdate("headline", v)}
-            className="text-5xl md:text-6xl lg:text-7xl font-extralight tracking-tight text-white leading-[0.92] mb-5"
+            className="text-5xl md:text-6xl lg:text-7xl font-extralight tracking-tight text-white leading-tight mb-5"
             multiline
             placeholder="Your headline"
           />
@@ -150,7 +150,7 @@ function LayoutCentered({ content, onUpdate }: { content: HeroContent; onUpdate:
         <EditableText
           value={content.headline}
           onChange={(v) => onUpdate("headline", v)}
-          className="text-5xl md:text-7xl lg:text-8xl font-extralight tracking-tight text-white leading-[0.9] mb-5 text-center"
+          className="text-5xl md:text-7xl lg:text-8xl font-extralight tracking-tight text-white leading-tight mb-5 text-center"
           multiline
           placeholder="Your headline"
         />
@@ -179,7 +179,7 @@ function LayoutSplit({ content, onUpdate }: { content: HeroContent; onUpdate: (k
           <EditableText
             value={content.headline}
             onChange={(v) => onUpdate("headline", v)}
-            className="text-4xl md:text-5xl lg:text-6xl font-extralight tracking-tight text-white leading-[0.92] mb-5"
+            className="text-4xl md:text-5xl lg:text-6xl font-extralight tracking-tight text-white leading-tight mb-5"
             multiline
             placeholder="Your headline"
           />
@@ -234,7 +234,7 @@ function LayoutMinimal({ content, onUpdate }: { content: HeroContent; onUpdate: 
         <EditableText
           value={content.headline}
           onChange={(v) => onUpdate("headline", v)}
-          className="text-6xl md:text-8xl lg:text-9xl font-extralight tracking-tighter text-white leading-none mb-8"
+          className="text-6xl md:text-8xl lg:text-9xl font-extralight tracking-tighter text-white leading-tight mb-8"
           multiline
           placeholder="Big statement."
         />

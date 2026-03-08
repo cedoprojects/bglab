@@ -84,31 +84,31 @@ function PlaygroundInner({ pattern }: Props) {
       <AIPanel open={aiOpen} onClose={() => setAiOpen(false)} />
 
       {/* ── Nav ─────────────────────────────────────────── */}
-      <nav className="flex items-center justify-between px-5 py-3 border-b border-white/[0.07] shrink-0">
-        <Link href="/" className="flex items-center gap-2 text-white/55 hover:text-white transition-colors text-sm tracking-widest">
-          <ArrowLeft size={13} /> BGLAB
+      <nav className="flex items-center justify-between px-6 py-4 border-b border-white/[0.1] shrink-0 bg-neutral-950">
+        <Link href="/" className="flex items-center gap-2.5 text-white/60 hover:text-white transition-colors text-[14px] font-medium tracking-wide">
+          <ArrowLeft size={15} /> bglab
         </Link>
-        <span className="text-sm text-white/60 font-light hidden md:block">{pattern.name}</span>
-        <div className="flex items-center gap-1.5">
-          <div className="flex border border-white/10 overflow-hidden">
+        <span className="text-[14px] text-white/70 font-medium hidden md:block">{pattern.name}</span>
+        <div className="flex items-center gap-2">
+          <div className="flex rounded-lg border border-white/[0.12] overflow-hidden">
             <button onClick={() => setMobileView(false)}
-              className={`px-2.5 py-1.5 transition-colors ${!mobileView ? "bg-white/10 text-white" : "text-white/30 hover:text-white/50"}`}>
-              <Monitor size={12} />
+              className={`px-3 py-2 transition-colors ${!mobileView ? "bg-white/10 text-white" : "text-white/40 hover:text-white/70"}`}>
+              <Monitor size={14} />
             </button>
             <button onClick={() => setMobileView(true)}
-              className={`px-2.5 py-1.5 transition-colors ${mobileView ? "bg-white/10 text-white" : "text-white/30 hover:text-white/50"}`}>
-              <Smartphone size={12} />
+              className={`px-3 py-2 transition-colors ${mobileView ? "bg-white/10 text-white" : "text-white/40 hover:text-white/70"}`}>
+              <Smartphone size={14} />
             </button>
           </div>
           <button onClick={() => setFullscreen(true)}
-            className="px-2.5 py-1.5 border border-white/10 text-white/30 hover:text-white transition-colors">
-            <Maximize2 size={12} />
+            className="px-3 py-2 rounded-lg border border-white/[0.12] text-white/40 hover:text-white hover:border-white/30 transition-colors">
+            <Maximize2 size={14} />
           </button>
           <button onClick={copyLink}
-            className="flex items-center gap-1.5 px-3 py-1.5 border border-white/10 text-[13px] tracking-widest text-white/55 hover:text-white hover:border-white/30 transition-all">
+            className="flex items-center gap-2 px-4 py-2 rounded-lg border border-white/[0.12] text-[13px] font-medium text-white/60 hover:text-white hover:border-white/30 transition-all">
             {linkCopied
-              ? <><Check size={11} className="text-green-400" /><span className="text-green-400">Copied</span></>
-              : <><Link2 size={11} /><span>Share</span></>}
+              ? <><Check size={13} className="text-green-400" /><span className="text-green-400">Copied</span></>
+              : <><Link2 size={13} /><span>Share</span></>}
           </button>
         </div>
       </nav>

@@ -5,9 +5,6 @@ import { useRouter } from "next/navigation"
 import { ArrowRight, Sparkles, Code2, Layers, MousePointer2 } from "lucide-react"
 import { patterns, PatternMeta } from "@/config/patterns"
 import { BlueprintGrid } from "@/components/patterns/BlueprintGrid"
-import { DotMatrix } from "@/components/patterns/DotMatrix"
-import { PerspectiveGrid } from "@/components/patterns/PerspectiveGrid"
-import { Crosshatch } from "@/components/patterns/Crosshatch"
 
 // Typography system (Inter, dark bg #0a0a0a):
 // Primary text:   text-white            headlines, active UI
@@ -130,40 +127,94 @@ export function LandingPage() {
           </p>
 
           <div className="grid md:grid-cols-2 gap-4">
-            {[
+            {([
               {
-                label: "SaaS", desc: "Linear / Vercel style — left-aligned, badge + headline + CTA",
-                Pattern: BlueprintGrid, patternId: "blueprint-grid",
+                id: "blueprint-grid",
+                label: "SaaS",
+                desc: "Left-aligned — badge, headline, subtext, two CTAs",
+                wireframe: (
+                  <svg viewBox="0 0 200 120" className="w-full h-full">
+                    <rect x="8" y="10" width="28" height="3" rx="1" fill="white" fillOpacity="0.5"/>
+                    <rect x="140" y="10" width="14" height="3" rx="1" fill="white" fillOpacity="0.2"/>
+                    <rect x="158" y="10" width="14" height="3" rx="1" fill="white" fillOpacity="0.2"/>
+                    <rect x="176" y="10" width="16" height="3" rx="1" fill="white" fillOpacity="0.2"/>
+                    <rect x="8" y="28" width="26" height="3" rx="8" fill="none" stroke="white" strokeWidth="0.8" strokeOpacity="0.3"/>
+                    <rect x="8" y="40" width="90" height="8" rx="2" fill="white" fillOpacity="0.7"/>
+                    <rect x="8" y="52" width="110" height="8" rx="2" fill="white" fillOpacity="0.7"/>
+                    <rect x="8" y="68" width="88" height="3" rx="1" fill="white" fillOpacity="0.25"/>
+                    <rect x="8" y="74" width="76" height="3" rx="1" fill="white" fillOpacity="0.25"/>
+                    <rect x="8" y="88" width="44" height="12" rx="3" fill="white" fillOpacity="0.85"/>
+                    <rect x="56" y="88" width="44" height="12" rx="3" fill="none" stroke="white" strokeWidth="1" strokeOpacity="0.3"/>
+                  </svg>
+                ),
               },
               {
-                label: "Centered", desc: "Agency / portfolio — full-width headline, centered CTAs",
-                Pattern: DotMatrix, patternId: "dot-matrix",
+                id: "dot-matrix",
+                label: "Centered",
+                desc: "Centered headline and CTAs — agency, portfolio, splash",
+                wireframe: (
+                  <svg viewBox="0 0 200 120" className="w-full h-full">
+                    <rect x="8" y="10" width="28" height="3" rx="1" fill="white" fillOpacity="0.5"/>
+                    <rect x="140" y="10" width="14" height="3" rx="1" fill="white" fillOpacity="0.2"/>
+                    <rect x="158" y="10" width="14" height="3" rx="1" fill="white" fillOpacity="0.2"/>
+                    <rect x="176" y="10" width="16" height="3" rx="1" fill="white" fillOpacity="0.2"/>
+                    <rect x="40" y="38" width="120" height="8" rx="2" fill="white" fillOpacity="0.7"/>
+                    <rect x="24" y="50" width="152" height="8" rx="2" fill="white" fillOpacity="0.7"/>
+                    <rect x="56" y="66" width="88" height="3" rx="1" fill="white" fillOpacity="0.25"/>
+                    <rect x="70" y="88" width="44" height="12" rx="3" fill="white" fillOpacity="0.85"/>
+                    <rect x="118" y="88" width="44" height="12" rx="3" fill="none" stroke="white" strokeWidth="1" strokeOpacity="0.3"/>
+                  </svg>
+                ),
               },
               {
-                label: "Split", desc: "Text left, product card right — show your UI alongside the pitch",
-                Pattern: PerspectiveGrid, patternId: "perspective-grid",
+                id: "perspective-grid",
+                label: "Split",
+                desc: "Text left, product UI card right — show your app",
+                wireframe: (
+                  <svg viewBox="0 0 200 120" className="w-full h-full">
+                    <rect x="8" y="10" width="28" height="3" rx="1" fill="white" fillOpacity="0.5"/>
+                    <rect x="158" y="10" width="14" height="3" rx="1" fill="white" fillOpacity="0.2"/>
+                    <rect x="176" y="10" width="16" height="3" rx="1" fill="white" fillOpacity="0.2"/>
+                    <rect x="8" y="30" width="80" height="8" rx="2" fill="white" fillOpacity="0.7"/>
+                    <rect x="8" y="42" width="88" height="6" rx="1" fill="white" fillOpacity="0.3"/>
+                    <rect x="8" y="51" width="72" height="6" rx="1" fill="white" fillOpacity="0.3"/>
+                    <rect x="8" y="68" width="38" height="10" rx="3" fill="white" fillOpacity="0.85"/>
+                    <rect x="108" y="26" width="84" height="78" rx="6" fill="white" fillOpacity="0.06" stroke="white" strokeWidth="0.8" strokeOpacity="0.25"/>
+                    <rect x="116" y="34" width="56" height="4" rx="1" fill="white" fillOpacity="0.25"/>
+                    <rect x="116" y="42" width="44" height="4" rx="1" fill="white" fillOpacity="0.2"/>
+                    <rect x="116" y="52" width="60" height="28" rx="3" fill="white" fillOpacity="0.05"/>
+                    <rect x="116" y="86" width="28" height="8" rx="2" fill="white" fillOpacity="0.3"/>
+                  </svg>
+                ),
               },
               {
-                label: "Minimal", desc: "Brutalist / editorial — massive type, nothing else",
-                Pattern: Crosshatch, patternId: "crosshatch",
+                id: "crosshatch",
+                label: "Minimal",
+                desc: "Brutalist — massive type at bottom, nothing else",
+                wireframe: (
+                  <svg viewBox="0 0 200 120" className="w-full h-full">
+                    <rect x="8" y="10" width="22" height="2.5" rx="1" fill="white" fillOpacity="0.35"/>
+                    <rect x="8" y="72" width="140" height="12" rx="2" fill="white" fillOpacity="0.75"/>
+                    <rect x="8" y="90" width="164" height="12" rx="2" fill="white" fillOpacity="0.75"/>
+                  </svg>
+                ),
               },
-            ].map((item) => (
-              <button key={item.label}
-                onClick={() => router.push(`/patterns/${item.patternId}`)}
-                className="group relative overflow-hidden rounded-xl border border-white/[0.09] hover:border-white/22 transition-all text-left hover:-translate-y-0.5 hover:shadow-xl hover:shadow-black/40"
-                style={{ height: 180 }}>
-                <div className="absolute inset-0 bg-neutral-900">
-                  <item.Pattern color="#ffffff" opacity={0.18} speed={12} size={1} />
+            ] as { id: string; label: string; desc: string; wireframe: React.ReactNode }[]).map((item) => (
+              <button key={item.id}
+                onClick={() => router.push(`/patterns/${item.id}`)}
+                className="group relative flex flex-col overflow-hidden rounded-xl border border-white/[0.1] bg-neutral-900 hover:border-white/25 transition-all text-left hover:-translate-y-0.5 hover:shadow-xl hover:shadow-black/40"
+                style={{ height: 200 }}>
+                {/* Wireframe fills top portion */}
+                <div className="flex-1 flex items-center justify-center p-4 bg-neutral-900">
+                  {item.wireframe}
                 </div>
-                <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-transparent" />
-                <div className="absolute inset-0 p-7 flex flex-col justify-center">
-                  <div className="inline-block border border-white/20 rounded-md px-2.5 py-1 text-[12px] text-white/60 tracking-widest mb-3 w-fit">
-                    {item.label.toUpperCase()}
+                {/* Label strip at bottom */}
+                <div className="shrink-0 px-4 py-3 border-t border-white/[0.08] flex items-center justify-between">
+                  <div>
+                    <p className="text-[13px] font-semibold text-white/80 group-hover:text-white transition-colors">{item.label}</p>
+                    <p className="text-[12px] text-white/40">{item.desc}</p>
                   </div>
-                  <p className="text-[13px] text-white/65 leading-snug max-w-[200px]">{item.desc}</p>
-                </div>
-                <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <ArrowRight size={14} className="text-white/50" />
+                  <ArrowRight size={14} className="text-white/25 group-hover:text-white/60 transition-colors shrink-0 ml-2" />
                 </div>
               </button>
             ))}

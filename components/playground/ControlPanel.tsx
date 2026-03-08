@@ -358,7 +358,7 @@ export function ControlPanel({
 
         {/* Code preview */}
         <div className="px-4 pt-3 pb-2">
-          <pre className="text-[10px] font-mono text-white/40 leading-relaxed bg-white/[0.03] rounded-md p-3 overflow-hidden whitespace-pre-wrap break-all line-clamp-4">
+          <pre className="text-[10px] font-mono text-white/40 leading-relaxed bg-white/[0.03] rounded-md p-3 overflow-y-auto whitespace-pre-wrap break-all" style={{ maxHeight: 160 }}>
             {codePreview}
           </pre>
         </div>

@@ -13,12 +13,12 @@ export function PatternStrip({ activeId, onGenerateClick }: Props) {
   const router = useRouter()
 
   return (
-    <div className="border-b-2 border-neutral-700 bg-neutral-900 shrink-0">
-      <div className="flex items-stretch overflow-x-auto" style={{ scrollbarWidth: "none" }}>
+    <div className="border-b border-white/[0.08] bg-neutral-950 shrink-0">
+      <div className="flex items-stretch overflow-x-auto gap-px bg-white/[0.06]" style={{ scrollbarWidth: "none" }}>
 
         {/* Label */}
-        <div className="shrink-0 px-5 border-r-2 border-neutral-700 flex items-center bg-neutral-900">
-          <span className="text-[13px] tracking-widest text-white/65 whitespace-nowrap font-semibold">PATTERNS</span>
+        <div className="shrink-0 px-5 flex items-center bg-neutral-950">
+          <span className="text-[11px] tracking-widest text-white/35 whitespace-nowrap font-semibold uppercase">Patterns</span>
         </div>
 
         {/* Pattern thumbnails */}
@@ -30,9 +30,9 @@ export function PatternStrip({ activeId, onGenerateClick }: Props) {
               key={p.id}
               onClick={() => router.push(`/patterns/${p.id}`)}
               title={p.name}
-              className={`group relative shrink-0 overflow-hidden transition-all duration-200 border-r-2 border-neutral-700 ${
+              className={`group relative shrink-0 overflow-hidden transition-all duration-200 bg-neutral-950 ${
                 isActive
-                  ? "ring-2 ring-inset ring-white/60 brightness-125"
+                  ? "ring-1 ring-inset ring-white/40 brightness-125"
                   : "opacity-40 hover:opacity-90"
               }`}
               style={{ width: 130, height: 84 }}
@@ -60,7 +60,7 @@ export function PatternStrip({ activeId, onGenerateClick }: Props) {
         {/* AI generate */}
         <button
           onClick={onGenerateClick}
-          className="shrink-0 flex flex-col items-center justify-center gap-1.5 px-6 text-white/55 hover:text-white hover:bg-white/[0.06] transition-all border-r-2 border-neutral-700"
+          className="shrink-0 flex flex-col items-center justify-center gap-1.5 px-6 text-white/55 hover:text-white hover:bg-white/[0.06] transition-all bg-neutral-950"
           style={{ minWidth: 110, height: 84 }}
         >
           <Sparkles size={14} />

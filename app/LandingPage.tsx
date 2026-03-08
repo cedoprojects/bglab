@@ -50,7 +50,7 @@ export function LandingPage() {
             8 patterns — free, no account
           </div>
 
-          <h1 className="text-[clamp(48px,8.5vw,108px)] font-extralight tracking-[-0.04em] leading-[0.9] mb-7 text-white">
+          <h1 className="text-[clamp(48px,8.5vw,108px)] font-extralight tracking-[-0.04em] leading-[1.0] mb-7 text-white">
             Stop guessing how<br />
             <span className="text-white/40">your hero will look.</span>
           </h1>

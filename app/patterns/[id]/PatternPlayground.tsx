@@ -35,7 +35,9 @@ function encodeState(config: PatternConfig, content: HeroContent): string {
       od: content.overlayDarkness, l: content.layout,
       h: content.headline, sh: content.subheadline,
       br: content.brand, ct: content.cta,
-      ct2: content.ctaSecondary, img: content.bgImageUrl,
+      ct2: content.ctaSecondary,
+      // data URLs are too large for btoa — only encode remote URLs
+      img: content.bgImageUrl.startsWith("data:") ? "" : content.bgImageUrl,
     })))
   } catch { return "" }
 }
